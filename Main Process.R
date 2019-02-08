@@ -68,7 +68,9 @@ basicConsolidating()
 
 categroizeGrouping()
 # View(dtReportData)
-View(dtReportData[is.na(Group),])
+# View(dtReportData[is.na(Group),])
+
+
 
 # ####################          CHOOSING OBJECTS TO BE SAVED AS RDATA - BEGINS           ####################
 # 

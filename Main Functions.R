@@ -26,10 +26,7 @@ loadData <- function(AcctNum, MonthsToProcess) {
 ##
 
 basicConsolidating <- function() {
-  # currentID <<- ifelse(nrow(dtConslidated) == 0, 1, nrow(dtConslidated))
-  # currentID <<- ifelse(nrow(dtResult) == 0, 1, nrow(dtResult))
-  
-  
+
   ##  i for Accounts
   for (i in 1:nrow(dtColStructure)) {
     acctRow <- dtColStructure[i,]
@@ -74,6 +71,7 @@ basicConsolidating <- function() {
     
     ##  Reorder Columns
     setcolorder(dtResult, names(dtConslidated))
+    dtResult[, Amount := as.numeric(Amount)]
     
     ##  Merge into Final Result
     dtConslidated <<- rbind(dtConslidated, dtResult)
@@ -94,8 +92,8 @@ basicConsolidating <- function() {
 categroizeGrouping <- function(){
   dtReportData <<- dtConslidated
   dtReportData[, ":=" (
-    Debit = ifelse(Amount < 0, Amount, NA)
-    , Credit = ifelse(Amount > 0, Amount, NA)
+    Debit = ifelse(Amount < 0, abs(Amount), 0)
+    , Credit = ifelse(Amount > 0, abs(Amount), 0)
     , Category = ifelse(Amount < 0, "Debit", "Credit")
   )]
   
@@ -104,10 +102,10 @@ categroizeGrouping <- function(){
   
   ##  Otherwise, assign Group by setup in acctKeywordsList
   for (i in names(acctKeywordsList)) {
-    print(i)
+    # print(i)
     lsKeys <- unlist(acctKeywordsList[i])
     strKeys <- grepl(pattern = paste0(lsKeys, collapse = "|"), x = dtReportData$OtherParty, ignore.case = TRUE)
-    print(paste0(lsKeys, collapse = "|"))
+    # print(paste0(lsKeys, collapse = "|"))
     dtReportData[(strKeys == TRUE), Group := i]
   }
   
@@ -115,12 +113,67 @@ categroizeGrouping <- function(){
 }
 
 
+####################            ANALYSIS DATA            ####################
+calcDebVSCred <- function() {
+  dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$Category, FUN=sum)
+  dtResult <- data.table(Credit = dtCalc["Credit"]
+                         , Debit = dtCalc["Debit"])
+  
+  # get(dtCalc[i])
+  # dtCalc[get(as.character(i))]
+  # dtResult <- setNames(data.table(
+  #   matrix(nrow = 0, ncol = length(dtCalc))), c(names(dtCalc))
+  #   )
+  # for (i in names(dtCalc)) {
+  #   dtResult[, as.character(i) := dtCalc[names(dtCalc)]]
+  # }
+  
+  # dtReportData[, sum(Amount), by = .(Category)]
+  # aggregate(as.numeric(dtReportData$Amount), by = list(Category = dtReportData$Category), FUN = sum)
+  return(dtResult)
+}
 
+
+lmMnthlySpending <- function() {
+  lmMnthly <- lm(Amount~TransactionDate + Category + Group, data = dtReportData)
+  names(dtReportData)
+}
+
+plotMnthlySpending <- function(){
+  dtReportData$Amount~dtReportData$TransactionDate
+  
+}
 ##########            APPLY TIME SERIES TO DATA            ##########
 ##  PURPOSE:
 ##  1. Assign relevant categories
 ##  2. Grouping data for reporting
 ##
+
+buildTSData <- function(tsGroup) {
+  AcctType <- "CC"
+  tsGroup <- "AcctType"
+  
+  ##  1. Subset data
+  dtTS <- subset(dtReportData, AcctType == "CC", select = c(TransYear, TransMonth, Debit) )
+  
+  ##  Calculate the sums
+  dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
+  plot(y = dtSums$Debit, x = dtSums$TransMonth)
+  install.packages("car")
+  library(car)
+  scatterplot(Debit~ TransYear | TransMonth, data= dtSums)
+  tsSum <- ts(dtSums$Debit, start = c(2018, 11), frequency = 1)
+  plot.ts(tsSum)
+  plot(x = dtSums$TransYear, y = dtSums$Debit)
+  ??scatterplot
+  names(dtTS)
+  rowFirst <- dtReportData[1,]
+  # ts(dtTS, start = c(rowFirst$TransYear, rowFirst$TransMonth), frequency = 12 )
+  # dtTS[, sum(Debit), by = .(TransYear, TransMonth)]
+  # aggregate(as.numeric(abs(dtReportData$Amount)), by = list(Category = dtReportData$Category), FUN = sum)
+  return(dtResult)
+}
+
 applyTimeSeries <- function(){
   
 }
@@ -191,16 +244,3 @@ testComponent <- function() {
   
 # dtResult[, ":=" (Note = dtSource[, get(Note)]
 }
-## c99818c3437de6ed81d7201ccf49a812f1847655
-#   print(j)
-# }
-# 
-# 
-# 
-# Archived
-# # dtResult[, ID := seq(from = currentID, by = 1, to = currentID + nrow(dtResult) - 1 )]
-
-# print("not in loop")
-# print(j)
-# print(colComponent)
-
