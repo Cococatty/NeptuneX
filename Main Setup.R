@@ -46,7 +46,6 @@ dtAcctProcessedRange <<- data.table(
 
 dtColStructure <<- data.table(
   # BankAcct = c("CC", "Daily", "Saver", "Home Bills", "Home Loan") 
-  
   AcctNum = c("AXXXX_XXXX_XXXX_6144", "A0315920567389000", "A0315920567389017","A0315920567389025", "A0315920567389091")
   , Reference = c("CreditPlanName", "AnalysisCode", "Particulars", "Particulars-AnalysisCode", "Particulars-AnalysisCode")
   , OtherParty = c("OtherParty", "OtherParty-Particulars", "OtherParty-Description", "OtherParty", "OtherParty")

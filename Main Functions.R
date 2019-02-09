@@ -1,6 +1,9 @@
 # install.packages("assertr")
 library(assertr)
 library(magrittr)
+library(data.table)
+library(lubridate)
+library(stringr)
 
 ##########            LOAD RAW DATA TO ENVIRONMENT            ##########
 
@@ -133,7 +136,7 @@ categorizeGrouping <- function(){
     dtReportData[(strKeys == TRUE), Category := i]
   }
   
-  fwrite(x = dtReportData[is.na(Category),], file = "Outputs/MI - Groups to Clear.tsv", sep = "\t")
+  # fwrite(x = dtReportData[is.na(Category),], file = "Outputs/MI - Groups to Clear.tsv", sep = "\t")
 }
 
 
