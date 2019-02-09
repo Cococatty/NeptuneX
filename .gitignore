@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 /Inputs/*
+/Outputs/*
+packrat/lib*/

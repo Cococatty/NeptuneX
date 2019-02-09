@@ -1,24 +1,24 @@
-Reference	OtherParty	Amount	AcctType	Note	TransactionDate	TransWDay	TransDay	TransMonth	TransYear	Debit	Credit	Category	Group
-PURCHASES	HANOI OLD QUARTER      CHRISTCHURCH  NZ	-15.00	CC		2018-11-08	Thu	8	11	2018	-15.00		Debit	
-PURCHASES	CRAZY DAVES            CHRISTCHURCH  NZ	-9.65	CC		2018-12-15	Sat	15	12	2018	-9.65		Debit	
-PURCHASES	APL WAIPARA            AMBERLEY NZ   NZ	-20.78	CC		2018-12-26	Wed	26	12	2018	-20.78		Debit	
-Transfer	To ************6144-WBC Internet	-100.00	Daily	ONLINE BANKING	2018-11-08	Thu	8	11	2018	-100.00		Debit	
-TradeMe	A.Mcleod-SewingMachin	-31.00	Daily	BILL PAYMENT	2018-11-09	Fri	9	11	2018	-31.00		Debit	
-Mum's	Liang X-Mum's	155.00	Daily	DIRECT CREDIT	2018-11-19	Mon	19	11	2018		155.00	Credit	
-Investment	6200Rabo-Rabo Invest	-2105.00	Daily	BILL PAYMENT	2018-11-19	Mon	19	11	2018	-2105.00		Debit	
-	Miss Yongyan Zheng-	3400.00	Daily	DIRECT CREDIT	2018-11-22	Thu	22	11	2018		3400.00	Credit	
-	-coin	12.70	Daily	CREDIT	2018-11-26	Mon	26	11	2018		12.70	Credit	
-	-car	400.00	Daily	CREDIT	2018-11-26	Mon	26	11	2018		400.00	Credit	
-Investment	6200Rabo-Rabo Invest	-300.00	Daily	BILL PAYMENT	2018-11-26	Mon	26	11	2018	-300.00		Debit	
-Refund	Westpac-Smart ATM	16.95	Daily	Reversed Debit	2018-11-28	Wed	28	11	2018		16.95	Credit	
-Transfer	To ************6144-WBC Internet	-12.00	Daily	ONLINE BANKING	2018-12-03	Mon	3	12	2018	-12.00		Debit	
-Investment	6200Rabo-Rabo Invest	-300.00	Daily	BILL PAYMENT	2018-12-03	Mon	3	12	2018	-300.00		Debit	
-Transfer	To ************6144-WBC Internet	-1000.00	Daily	ONLINE BANKING	2018-12-03	Mon	3	12	2018	-1000.00		Debit	
-Transfer	To ************6144-WBC Internet	-51.00	Daily	ONLINE BANKING	2018-12-05	Wed	5	12	2018	-51.00		Debit	
-Transfer	To ************6144-WBC Internet	-50.00	Daily	ONLINE BANKING	2018-12-06	Thu	6	12	2018	-50.00		Debit	
-Investment	6200Rabo-Rabo Invest	-1000.00	Daily	BILL PAYMENT	2018-12-17	Mon	17	12	2018	-1000.00		Debit	
-3813CASH	Christchurch WBC ATM-************	-90.00	Daily	ATM TRANSACTION	2018-12-18	Tue	18	12	2018	-90.00		Debit	
-3813	-************	10.00	Daily	CREDIT	2018-12-28	Fri	28	12	2018		10.00	Credit	
-3813 10959	Mr Whippy-************	-5.50	Daily	EFTPOS TRANSACTION	2018-12-31	Mon	31	12	2018	-5.50		Debit	
-MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10.00	OBS	Saving-	2018-11-30	Fri	30	11	2018		10.00	Credit	
-MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10.00	OBS	Saving-	2018-12-31	Mon	31	12	2018		10.00	Credit	
+Reference	OtherParty	Amount	BankAcct	Note	TransDate	TransWDay	TransDay	TransMonth	TransYear	Debit	Credit	AcctType	Category
+PURCHASES	HANOI OLD QUARTER      CHRISTCHURCH  NZ	-15	CC		2018-11-08	Thu	8	11	2018	15	0	Debit	
+PURCHASES	CRAZY DAVES            CHRISTCHURCH  NZ	-9.65	CC		2018-12-15	Sat	15	12	2018	9.65	0	Debit	
+PURCHASES	APL WAIPARA            AMBERLEY NZ   NZ	-20.78	CC		2018-12-26	Wed	26	12	2018	20.78	0	Debit	
+Transfer	To ************6144-WBC Internet	-100	Daily	ONLINE BANKING	2018-11-08	Thu	8	11	2018	100	0	Debit	
+TradeMe	A.Mcleod-SewingMachin	-31	Daily	BILL PAYMENT	2018-11-09	Fri	9	11	2018	31	0	Debit	
+Mum's	Liang X-Mum's	155	Daily	DIRECT CREDIT	2018-11-19	Mon	19	11	2018	0	155	Credit	
+Investment	6200Rabo-Rabo Invest	-2105	Daily	BILL PAYMENT	2018-11-19	Mon	19	11	2018	2105	0	Debit	
+	Miss Yongyan Zheng-	3400	Daily	DIRECT CREDIT	2018-11-22	Thu	22	11	2018	0	3400	Credit	
+	-coin	12.7	Daily	CREDIT	2018-11-26	Mon	26	11	2018	0	12.7	Credit	
+	-car	400	Daily	CREDIT	2018-11-26	Mon	26	11	2018	0	400	Credit	
+Investment	6200Rabo-Rabo Invest	-300	Daily	BILL PAYMENT	2018-11-26	Mon	26	11	2018	300	0	Debit	
+Refund	Westpac-Smart ATM	16.95	Daily	Reversed Debit	2018-11-28	Wed	28	11	2018	0	16.95	Credit	
+Transfer	To ************6144-WBC Internet	-12	Daily	ONLINE BANKING	2018-12-03	Mon	3	12	2018	12	0	Debit	
+Investment	6200Rabo-Rabo Invest	-300	Daily	BILL PAYMENT	2018-12-03	Mon	3	12	2018	300	0	Debit	
+Transfer	To ************6144-WBC Internet	-1000	Daily	ONLINE BANKING	2018-12-03	Mon	3	12	2018	1000	0	Debit	
+Transfer	To ************6144-WBC Internet	-51	Daily	ONLINE BANKING	2018-12-05	Wed	5	12	2018	51	0	Debit	
+Transfer	To ************6144-WBC Internet	-50	Daily	ONLINE BANKING	2018-12-06	Thu	6	12	2018	50	0	Debit	
+Investment	6200Rabo-Rabo Invest	-1000	Daily	BILL PAYMENT	2018-12-17	Mon	17	12	2018	1000	0	Debit	
+3813CASH	Christchurch WBC ATM-************	-90	Daily	ATM TRANSACTION	2018-12-18	Tue	18	12	2018	90	0	Debit	
+3813	-************	10	Daily	CREDIT	2018-12-28	Fri	28	12	2018	0	10	Credit	
+3813 10959	Mr Whippy-************	-5.5	Daily	EFTPOS TRANSACTION	2018-12-31	Mon	31	12	2018	5.5	0	Debit	
+MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10	Saver	Saving-	2018-11-30	Fri	30	11	2018	0	10	Credit	
+MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10	Saver	Saving-	2018-12-31	Mon	31	12	2018	0	10	Credit	
