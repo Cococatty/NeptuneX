@@ -20,12 +20,14 @@ install.packages(c("assertr", "data.table", "lubridate", "sqldf", "XLConnect"))
 
 install.packages(c("data.table", "lubridate"))
 
+remove.packages("data.table", lib="")
 
 
 ############        PACKRAT
 install.packages("packrat")
 install.packages("devtools")
 devtools::install_github("rstudio/packrat")
+
 
 packrat::init("C:/Projects/Neptune")
 

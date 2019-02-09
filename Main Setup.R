@@ -10,7 +10,7 @@ source("Main Functions.R")
 
 
 ##################                  STRUCTURAL SETUP                  ##################
-dtConslidated <<- data.table(
+dtConslidated <<- data.table::data.table(
                       Reference = character()
                       , OtherParty = character()
                       , Amount = numeric()
