@@ -1,4 +1,3 @@
-# install.packages("assertr")
 library(assertr)
 library(magrittr)
 library(data.table)
