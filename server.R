@@ -1,4 +1,4 @@
-source("Main Process.R")
+source("Main Setup.R")
 # source("Main Functions.R")
 
 
@@ -8,7 +8,15 @@ shinyServer(function(input, output, session) {
        # data.table(tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$Category, FUN=sum))
        # data.table(x = 1, y = 2)
    )
-     # 
+
+   # output$plotsTSSpending <- renderUI({plotTSSimple(selectedAcct = input$inTSGroups
+   #                                                  , selectDateRange = input$inTSDates)})
+   
+   # output$plotsTSSpending <- renderUI(plotTSSimple(selectedAcct = input$inTSGroups
+   #                                                  , selectDateRange = input$inTSDates))
+   
+   output$plotsTSSpending <- renderPlot(plotTSSimple(selectedAcct = input$inTSGroups
+                                                    , selectDateRange = input$inTSDates))
 
    # output$plotMnthly <- renderPlot()
 })

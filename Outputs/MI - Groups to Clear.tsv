@@ -1,4 +1,4 @@
-Reference	OtherParty	Amount	AcctType	Note	TransactionDate	TransWDay	TransDay	TransMonth	TransYear	Debit	Credit	Category	Group
+Reference	OtherParty	Amount	AcctType	Note	TransDate	TransWDay	TransDay	TransMonth	TransYear	Debit	Credit	Category	Group
 PURCHASES	HANOI OLD QUARTER      CHRISTCHURCH  NZ	-15	CC		2018-11-08	Thu	8	11	2018	15	0	Debit	
 PURCHASES	CRAZY DAVES            CHRISTCHURCH  NZ	-9.65	CC		2018-12-15	Sat	15	12	2018	9.65	0	Debit	
 PURCHASES	APL WAIPARA            AMBERLEY NZ   NZ	-20.78	CC		2018-12-26	Wed	26	12	2018	20.78	0	Debit	
@@ -20,5 +20,5 @@ Investment	6200Rabo-Rabo Invest	-1000	Daily	BILL PAYMENT	2018-12-17	Mon	17	12	20
 3813CASH	Christchurch WBC ATM-************	-90	Daily	ATM TRANSACTION	2018-12-18	Tue	18	12	2018	90	0	Debit	
 3813	-************	10	Daily	CREDIT	2018-12-28	Fri	28	12	2018	0	10	Credit	
 3813 10959	Mr Whippy-************	-5.5	Daily	EFTPOS TRANSACTION	2018-12-31	Mon	31	12	2018	5.5	0	Debit	
-MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10	OBS	Saving-	2018-11-30	Fri	30	11	2018	0	10	Credit	
-MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10	OBS	Saving-	2018-12-31	Mon	31	12	2018	0	10	Credit	
+MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10	Saver	Saving-	2018-11-30	Fri	30	11	2018	0	10	Credit	
+MnthlySaving	Zheng Y-AUTOMATIC PAYMENT	10	Saver	Saving-	2018-12-31	Mon	31	12	2018	0	10	Credit	

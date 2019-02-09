@@ -36,7 +36,7 @@ basicConsolidating <- function() {
     
     ##  Fixed Columns
     TransDateCol <- dmy(dtRawTransactions[, get(acctRow$TransDate)])
-    dtResult <- data.table(TransactionDate = ymd(TransDateCol)
+    dtResult <- data.table(TransDate = ymd(TransDateCol)
                      , TransWDay = wday(TransDateCol, label = TRUE)
                      , TransDay = mday(TransDateCol)
                      , TransMonth = month(TransDateCol)
@@ -89,7 +89,7 @@ basicConsolidating <- function() {
 ##  2. Grouping data for reporting
 ##
 
-categroizeGrouping <- function(){
+categorizeGrouping <- function(){
   dtReportData <<- dtConslidated
   dtReportData[, ":=" (
     Debit = ifelse(Amount < 0, abs(Amount), 0)
@@ -113,6 +113,11 @@ categroizeGrouping <- function(){
 }
 
 
+
+
+
+
+
 ####################            ANALYSIS DATA            ####################
 calcDebVSCred <- function() {
   dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$Category, FUN=sum)
@@ -133,22 +138,29 @@ calcDebVSCred <- function() {
   return(dtResult)
 }
 
-
-lmMnthlySpending <- function() {
-  lmMnthly <- lm(Amount~TransactionDate + Category + Group, data = dtReportData)
-  names(dtReportData)
-}
-
-plotMnthlySpending <- function(){
-  dtReportData$Amount~dtReportData$TransactionDate
-  
-}
 ##########            APPLY TIME SERIES TO DATA            ##########
 ##  PURPOSE:
 ##  1. Assign relevant categories
 ##  2. Grouping data for reporting
 ##
 
+
+plotTSSimple <- function(selectedAcct, selectDateRange) {
+  # selectedAcct <- "CC"
+  # selectDateRange <- c("2018-12-01", "2018-12-30")
+  # print(selectedAcct, selectDateRange)
+  dtTargetData <- dtReportData[ AcctType == selectedAcct & TransDate %between%selectDateRange, ]
+  dtSumByDate <- aggregate(Debit~ TransDate, data = dtTargetData, FUN = sum)
+  (dtSumByDate)
+  
+  plotTitle <- sprintf("Spending total by Date in %s from %s"
+                      , selectedAcct, paste0(selectDateRange, collapse = " to "))
+  plot(x = dtSumByDate$TransDate, y = dtSumByDate$Debit, main = plotTitle, type = "b"
+       , xlab = "Transaction Date", ylab = "Amount ($)")
+  # plot.ts(dtSumByDate, start = )
+}
+
+##  TO ENHANCE
 buildTSData <- function(tsGroup) {
   AcctType <- "CC"
   tsGroup <- "AcctType"
@@ -174,11 +186,25 @@ buildTSData <- function(tsGroup) {
   return(dtResult)
 }
 
+
+
+########################          TO COMPLETE          ########################
+lmMnthlySpending <- function() {
+  lmMnthly <- lm(Amount~TransactionDate + Category + Group, data = dtReportData)
+  names(dtReportData)
+}
+
+plotMnthlySpending <- function(){
+  dtReportData$Amount~dtReportData$TransactionDate
+  
+}
+
 applyTimeSeries <- function(){
   
 }
 
 
+#######################                  ARCHIVED                  #######################
 ##########            SAVE OBJECTS MATCHING KEYWORDS LIST AS RDATA TO DATA FOLDER            ##########
 saveToRData <- function(targetObjs) {
   targetObjs <- paste(targetObjs, collapse = "|")
