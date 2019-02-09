@@ -17,12 +17,14 @@ shinyUI(fluidPage(
                                  , min = 1, max = 5, value = 3
                                  )
                      , checkboxGroupInput("inTSGroups", "Selected Categories"
-                                          , choices = dtColStructure$AcctType
+                                          , choices = dtAcctProcessedRange$BankAcct
                                           , selected = "CC")
                      , dateRangeInput("inTSDates", "Transaction Date Range"
                                       # , start = (today() %m-% months(1)), end = today() 
                                       , start = "2018-12-01", end = "2018-12-31"
-                                      , min = ymd("2016-01-01"), max = today()
+                                      , min ="2018-12-01" # min(dtAcctProcessedRange$MinDate)
+                                      , max = "2018-12-31"#max(dtAcctProcessedRange$MaxDate)
+                                      # , separator = " to "
                                       )
                    )
                    , mainPanel(

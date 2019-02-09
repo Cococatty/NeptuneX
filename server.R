@@ -12,11 +12,14 @@ shinyServer(function(input, output, session) {
    # output$plotsTSSpending <- renderUI({plotTSSimple(selectedAcct = input$inTSGroups
    #                                                  , selectDateRange = input$inTSDates)})
    
-   # output$plotsTSSpending <- renderUI(plotTSSimple(selectedAcct = input$inTSGroups
-   #                                                  , selectDateRange = input$inTSDates))
+   output$plotsTSSpending <- renderUI({
+     for (i in input$inTSGroups) {
+       plotTSSimple(selectedAcct = i, selectDateRange = input$inTSDates) 
+     }
+     })
    
-   output$plotsTSSpending <- renderPlot(plotTSSimple(selectedAcct = input$inTSGroups
-                                                    , selectDateRange = input$inTSDates))
+   # output$plotsTSSpending <- renderPlot(plotTSSimple(selectedAcct = input$inTSGroups
+   #                                                  , selectDateRange = input$inTSDates))
 
    # output$plotMnthly <- renderPlot()
 })

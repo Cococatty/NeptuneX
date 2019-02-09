@@ -1,4 +1,4 @@
-Reference	OtherParty	Amount	AcctType	Note	TransDate	TransWDay	TransDay	TransMonth	TransYear	Debit	Credit	Category	Group
+Reference	OtherParty	Amount	BankAcct	Note	TransDate	TransWDay	TransDay	TransMonth	TransYear	Debit	Credit	AcctType	Category
 PURCHASES	HANOI OLD QUARTER      CHRISTCHURCH  NZ	-15	CC		2018-11-08	Thu	8	11	2018	15	0	Debit	
 PURCHASES	CRAZY DAVES            CHRISTCHURCH  NZ	-9.65	CC		2018-12-15	Sat	15	12	2018	9.65	0	Debit	
 PURCHASES	APL WAIPARA            AMBERLEY NZ   NZ	-20.78	CC		2018-12-26	Wed	26	12	2018	20.78	0	Debit	

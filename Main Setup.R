@@ -5,12 +5,16 @@ rm(list = ls(all = TRUE))
 library(data.table)
 library(lubridate)
 
+# source("Setup Data.R")
 source("Main Functions.R")
 
-dtConslidated <<- data.table( Reference = character()
+
+##################                  STRUCTURAL SETUP                  ##################
+dtConslidated <<- data.table(
+                      Reference = character()
                       , OtherParty = character()
                       , Amount = numeric()
-                      , AcctType = character()
+                      , BankAcct = character()
                       , Note = character()
                       # , ID = integer()
                       , TransDate = ymd()
@@ -19,7 +23,20 @@ dtConslidated <<- data.table( Reference = character()
                       , TransMonth = integer()
                       , TransYear = integer()
 )
-# 
+
+# dtAcctProcessedRange <<- data.table(
+#                                     BankAcct = character()
+#                                     , minDate = ymd()
+#                                     , maxDate = ymd()
+# )
+dtAcctProcessedRange <<- data.table(
+  BankAcct = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
+  , MinDate = ymd("2018-11-08")
+  , MaxDate = ymd("2018-01-08")
+)
+
+##################                  BACKGROUND DATA SETUP                  ##################
+
 # "A0315920567389000" - "Daily"
 # "A0315920567389017" - "Online Bonus Saver", "OBS"
 # "A0315920567389025" - "Home Bills"
@@ -28,8 +45,9 @@ dtConslidated <<- data.table( Reference = character()
 # AXXXX_XXXX_XXXX_6144-07Nov18.csv
 
 dtColStructure <<- data.table(
-  AcctType = c("CC", "Daily", "Saver", "Home Bills", "Home Loan") 
-  , AcctNum = c("AXXXX_XXXX_XXXX_6144", "A0315920567389000", "A0315920567389017","A0315920567389025", "A0315920567389091")
+  # BankAcct = c("CC", "Daily", "Saver", "Home Bills", "Home Loan") 
+  
+  AcctNum = c("AXXXX_XXXX_XXXX_6144", "A0315920567389000", "A0315920567389017","A0315920567389025", "A0315920567389091")
   , Reference = c("CreditPlanName", "AnalysisCode", "Particulars", "Particulars-AnalysisCode", "Particulars-AnalysisCode")
   , OtherParty = c("OtherParty", "OtherParty-Particulars", "OtherParty-Description", "OtherParty", "OtherParty")
   , Amount = c("Amount", "Amount", "Amount", "Amount", "Amount")
@@ -70,7 +88,7 @@ categorizeGrouping()
 
 # View(dtConslidated)
 # View(dtReportData)
-# View(dtReportData[is.na(Group),])
+# View(dtReportData[is.na(Category),])
 
 
 

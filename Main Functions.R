@@ -14,7 +14,6 @@ loadData <- function(AcctNum, MonthsToProcess) {
   
   ##  TAKE OUT SPECIAL CHARACTER OF "." IN COLUMN NAMES
   names(importedData) <- gsub(pattern = "[.]", x = names(importedData), "")
-  
   return(importedData)
 }
 
@@ -33,7 +32,15 @@ basicConsolidating <- function() {
     
     dtRawTransactions <- loadData(AcctNum = acctRow$AcctNum, MonthsToProcess = MonthsToProcess)
     
-    
+    ##  Set up BankAcct value by last 3 digits of accout number
+     BankAcct <- switch(str_sub(acctRow$AcctNum, -3, -1) 
+                        , "144" = "CC" 
+                        , "000"  = "Daily"
+                        , "017"  = "Saver"
+                        , "025"  = "Home Bills"
+                        , "091"  = "Home Loan"
+     )
+     
     ##  Fixed Columns
     TransDateCol <- dmy(dtRawTransactions[, get(acctRow$TransDate)])
     dtResult <- data.table(TransDate = ymd(TransDateCol)
@@ -41,10 +48,10 @@ basicConsolidating <- function() {
                      , TransDay = mday(TransDateCol)
                      , TransMonth = month(TransDateCol)
                      , TransYear = year(TransDateCol)
-                     , AcctType = acctRow$AcctType
+                     , BankAcct = BankAcct
     )
     
-    acctRow[, c("AcctType", "AcctNum", "TransDate") := NULL]
+    acctRow[, c("AcctNum", "TransDate") := NULL]
     
     ##  Dynamic Columns, retrieve by columns' names
     for (j in names(acctRow)) {
@@ -75,6 +82,9 @@ basicConsolidating <- function() {
     
     ##  Merge into Final Result
     dtConslidated <<- rbind(dtConslidated, dtResult)
+    
+    updateAcctProcessRange(dtConslidated)
+    
     # , fill = TRUE
   }
   
@@ -82,6 +92,20 @@ basicConsolidating <- function() {
   # return(dtResult)
 }
 
+
+updateAcctProcessRange <- function(dtData) {
+  # dtData <- dtConslidated
+  minDates <- aggregate(TransDate ~ BankAcct, data = dtData, min)
+  colnames(minDates)[colnames(minDates) == "TransDate"] <- "minDate"
+  
+  maxDates <- aggregate(TransDate ~ BankAcct, data = dtData, max)
+  colnames(maxDates)[colnames(maxDates) == "TransDate"] <- "maxDate"
+  
+  dtAcctDates <<- merge(minDates, maxDates, by = "BankAcct")
+  
+  # if (nrow(dtAcctProcessedRange) == 0 )  dtAcctProcessedRange <<- rbind(dtAcctProcessedRange, dtAcctDates)
+  # else dtAcctProcessedRange[ BankAcct == dtAcctProcessedRange$BankAcct]
+}
 
 ##########            PREPARE DATA FOR REPORT            ##########
 ##  PURPOSE:
@@ -94,22 +118,22 @@ categorizeGrouping <- function(){
   dtReportData[, ":=" (
     Debit = ifelse(Amount < 0, abs(Amount), 0)
     , Credit = ifelse(Amount > 0, abs(Amount), 0)
-    , Category = ifelse(Amount < 0, "Debit", "Credit")
+    , AcctType = ifelse(Amount < 0, "Debit", "Credit")
   )]
   
   ##  If Account is of "Home", then count it as "Household"
-  dtReportData[grep("Home", AcctType), Group := "HouseHold"]
+  dtReportData[grep("Home", BankAcct), Category := "HouseHold"]
   
-  ##  Otherwise, assign Group by setup in acctKeywordsList
+  ##  Otherwise, assign Category by setup in acctKeywordsList
   for (i in names(acctKeywordsList)) {
     # print(i)
     lsKeys <- unlist(acctKeywordsList[i])
     strKeys <- grepl(pattern = paste0(lsKeys, collapse = "|"), x = dtReportData$OtherParty, ignore.case = TRUE)
     # print(paste0(lsKeys, collapse = "|"))
-    dtReportData[(strKeys == TRUE), Group := i]
+    dtReportData[(strKeys == TRUE), Category := i]
   }
   
-  fwrite(x = dtReportData[is.na(Group),], file = "Outputs/MI - Groups to Clear.tsv", sep = "\t")
+  fwrite(x = dtReportData[is.na(Category),], file = "Outputs/MI - Groups to Clear.tsv", sep = "\t")
 }
 
 
@@ -120,7 +144,7 @@ categorizeGrouping <- function(){
 
 ####################            ANALYSIS DATA            ####################
 calcDebVSCred <- function() {
-  dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$Category, FUN=sum)
+  dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$AcctType, FUN=sum)
   dtResult <- data.table(Credit = dtCalc["Credit"]
                          , Debit = dtCalc["Debit"])
   
@@ -133,8 +157,8 @@ calcDebVSCred <- function() {
   #   dtResult[, as.character(i) := dtCalc[names(dtCalc)]]
   # }
   
-  # dtReportData[, sum(Amount), by = .(Category)]
-  # aggregate(as.numeric(dtReportData$Amount), by = list(Category = dtReportData$Category), FUN = sum)
+  # dtReportData[, sum(Amount), by = .(AcctType)]
+  # aggregate(as.numeric(dtReportData$Amount), by = list(AcctType = dtReportData$AcctType), FUN = sum)
   return(dtResult)
 }
 
@@ -148,8 +172,9 @@ calcDebVSCred <- function() {
 plotTSSimple <- function(selectedAcct, selectDateRange) {
   # selectedAcct <- "CC"
   # selectDateRange <- c("2018-12-01", "2018-12-30")
-  # print(selectedAcct, selectDateRange)
-  dtTargetData <- dtReportData[ AcctType == selectedAcct & TransDate %between%selectDateRange, ]
+  # print(selectDateRange)
+  sprintf("date range is %s", selectDateRange)
+  dtTargetData <- dtReportData[ BankAcct == selectedAcct & TransDate %between%selectDateRange, ]
   dtSumByDate <- aggregate(Debit~ TransDate, data = dtTargetData, FUN = sum)
   (dtSumByDate)
   
@@ -162,11 +187,11 @@ plotTSSimple <- function(selectedAcct, selectDateRange) {
 
 ##  TO ENHANCE
 buildTSData <- function(tsGroup) {
-  AcctType <- "CC"
-  tsGroup <- "AcctType"
+  BankAcct <- "CC"
+  tsGroup <- "BankAcct"
   
   ##  1. Subset data
-  dtTS <- subset(dtReportData, AcctType == "CC", select = c(TransYear, TransMonth, Debit) )
+  dtTS <- subset(dtReportData, BankAcct == "CC", select = c(TransYear, TransMonth, Debit) )
   
   ##  Calculate the sums
   dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
@@ -182,7 +207,7 @@ buildTSData <- function(tsGroup) {
   rowFirst <- dtReportData[1,]
   # ts(dtTS, start = c(rowFirst$TransYear, rowFirst$TransMonth), frequency = 12 )
   # dtTS[, sum(Debit), by = .(TransYear, TransMonth)]
-  # aggregate(as.numeric(abs(dtReportData$Amount)), by = list(Category = dtReportData$Category), FUN = sum)
+  # aggregate(as.numeric(abs(dtReportData$Amount)), by = list(AcctType = dtReportData$AcctType), FUN = sum)
   return(dtResult)
 }
 
@@ -190,7 +215,7 @@ buildTSData <- function(tsGroup) {
 
 ########################          TO COMPLETE          ########################
 lmMnthlySpending <- function() {
-  lmMnthly <- lm(Amount~TransactionDate + Category + Group, data = dtReportData)
+  lmMnthly <- lm(Amount~TransactionDate + AcctType + Category, data = dtReportData)
   names(dtReportData)
 }
 
