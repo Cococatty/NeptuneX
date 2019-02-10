@@ -6,3 +6,4 @@
 /Outputs/*
 packrat/lib*/
 downloaded_packages/*
+/Example/*

@@ -16,11 +16,14 @@ options(repos = c(CRAN = "http://cran.rstudio.com"))
 getOption("repos")
 
 
-install.packages(c("assertr", "data.table", "lubridate", "sqldf", "XLConnect"))
+install.packages(c("assertr", "data.table", "lubridate", "sqldf", "XLConnect"
+                   , "googleVis"))
 
-install.packages(c("data.table", "lubridate"))
 
-remove.packages("data.table", lib="")
+install.packages()
+
+# remove.packages("data.table", lib="")
+
 
 
 ############        PACKRAT

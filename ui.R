@@ -17,7 +17,8 @@ shinyUI(fluidPage(
                                  , min = 1, max = 5, value = 3
                                  )
                      , checkboxGroupInput("inTSGroups", "Selected Categories"
-                                          , choices = dtAcctProcessedRange$BankAcct
+                                          ##    TO DO:    Change to use dynamic table input, e.g. dtAcctProcessedRange$BankAcct
+                                          , choices = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
                                           , selected = "CC")
                      , dateRangeInput("inTSDates", "Transaction Date Range"
                                       # , start = (today() %m-% months(1)), end = today() 
@@ -28,8 +29,8 @@ shinyUI(fluidPage(
                                       )
                    )
                    , mainPanel(
-                     # uiOutput("plotsTSSpending")
-                     plotOutput("plotsTSSpending", width = "200%", height = "400px")
+                     uiOutput("plotsTSSpending")
+                     # plotOutput("plotsTSSpending", width = "200%", height = "400px")
                      )
                  )
                  # plotOutput("plotMnthly")

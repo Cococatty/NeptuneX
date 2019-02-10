@@ -172,19 +172,23 @@ calcDebVSCred <- function() {
 
 
 plotTSSimple <- function(selectedAcct, selectDateRange) {
-  # selectedAcct <- "CC"
-  # selectDateRange <- c("2018-12-01", "2018-12-30")
-  # print(selectDateRange)
-  sprintf("date range is %s", selectDateRange)
+  if (length(selectedAcct) == 0) selectedAcct <- "CC"
+  if (length(selectDateRange) == 0) selectDateRange <- c("2018-12-01", "2018-12-31")
+  
   dtTargetData <- dtReportData[ BankAcct == selectedAcct & TransDate %between%selectDateRange, ]
   dtSumByDate <- aggregate(Debit~ TransDate, data = dtTargetData, FUN = sum)
-  (dtSumByDate)
   
   plotTitle <- sprintf("Spending total by Date in %s from %s"
                       , selectedAcct, paste0(selectDateRange, collapse = " to "))
   plot(x = dtSumByDate$TransDate, y = dtSumByDate$Debit, main = plotTitle, type = "b"
        , xlab = "Transaction Date", ylab = "Amount ($)")
+  ##  SECTIONAL ARCHIVED CODE
   # plot.ts(dtSumByDate, start = )
+  # # selectedAcct <- "CC"
+  # selectDateRange <- c("2018-12-01", "2018-12-30")
+  # print(selectDateRange)
+  # sprintf("date range is %s", selectDateRange)
+  # # (dtSumByDate)
 }
 
 ##  TO ENHANCE
