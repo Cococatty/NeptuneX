@@ -36,6 +36,9 @@ dtAcctProcessedRange <<- data.table(
   , MaxDate = ymd("2018-01-08")
 )
 
+qsIncomeValues <<- list("receivedAll", "missPayments")
+qsIncomeNames <<- list("Have I received all expected money?", "What payments are missing?")
+
 ##################                  BACKGROUND DATA SETUP                  ##################
 
 # "A0315920567389000" - "Daily"
