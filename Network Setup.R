@@ -19,6 +19,7 @@ getOption("repos")
 install.packages(c("assertr", "data.table", "lubridate", "sqldf", "XLConnect"
                    , "googleVis"))
 
+install.packages("shinythemes")
 
 install.packages()
 
