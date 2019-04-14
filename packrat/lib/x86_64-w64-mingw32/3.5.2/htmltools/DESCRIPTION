@@ -21,3 +21,6 @@ Repository: CRAN
 Date/Publication: 2017-04-28 07:41:46 UTC
 Built: R 3.5.2; x86_64-w64-mingw32; 2019-02-04 16:56:40 UTC; windows
 Archs: i386, x64
+InstallAgent: packrat 0.5.0
+InstallSource: CRAN
+Hash: 9707abea0a9b7406e98fb1242e97e1f6

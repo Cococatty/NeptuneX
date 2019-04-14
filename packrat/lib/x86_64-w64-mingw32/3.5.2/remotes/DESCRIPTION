@@ -1,39 +1,44 @@
 Package: remotes
 Title: R Package Installation from Remote Repositories, Including
-    'GitHub'
-Version: 2.0.2
-Authors@R: c( person("Gábor", "Csárdi", , "csardi.gabor@gmail.com",
-    role = c("aut", "cre")), person("Hadley", "Wickham", role =
-    c("aut")), person("Winston", "Chang", role = "aut"), person("Jim",
-    "Hester", role = "aut"), person("RStudio", role = "cph"),
-    person("Martin", "Morgan", role = "aut"), person("Dan",
-    "Tenenbaum", role = "aut"), person("Mango Solutions", role = "cph")
+        'GitHub'
+Version: 2.0.4
+Authors@R: c(
+    person("Jim", "Hester", , "james.hester@rstudio.com", role = c("aut", "cre")),
+    person("Gábor", "Csárdi", , "csardi.gabor@gmail.com", role = c("aut")),
+    person("Hadley", "Wickham", role = c("aut")),
+    person("Winston", "Chang", role = "aut"),
+    person("RStudio", role = "cph"),
+    person("Martin", "Morgan", role = "aut"),
+    person("Dan", "Tenenbaum", role = "aut"),
+    person("Mango Solutions", role = "cph")
     )
 Description: Download and install R packages stored in 'GitHub',
-    'BitBucket', or plain 'subversion' or 'git' repositories. This
-    package is a lightweight replacement of the 'install_*' functions
-    in 'devtools'. Indeed most of the code was copied over from
-    'devtools'.
+    'BitBucket', or plain 'subversion' or 'git' repositories. This package
+    provides the 'install_*' functions in 'devtools'.
+    Indeed most of the code was copied over from 'devtools'.
 License: GPL (>= 2)
 URL: https://github.com/r-lib/remotes#readme
 BugReports: https://github.com/r-lib/remotes/issues
-Imports: methods, utils
-Suggests: curl, covr, git2r (>= 0.23.0), knitr, mockery, pkgbuild (>=
-    1.0.1), pingr, rmarkdown, testthat, withr
+Imports: methods, stats, tools, utils
+Suggests: brew, callr, curl, covr, git2r (>= 0.23.0), knitr, mockery,
+        pkgbuild (>= 1.0.1), pingr, rmarkdown, rprojroot, testthat,
+        withr
 Depends: R (>= 3.0.0)
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 SystemRequirements: Subversion for install_svn, git for install_git
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2018-10-30 10:46:53 UTC; gaborcsardi
-Author: Gábor Csárdi [aut, cre], Hadley Wickham [aut], Winston Chang
-    [aut], Jim Hester [aut], RStudio [cph], Martin Morgan [aut], Dan
-    Tenenbaum [aut], Mango Solutions [cph]
-Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
+Packaged: 2019-04-10 14:53:06 UTC; jhester
+Author: Jim Hester [aut, cre],
+  Gábor Csárdi [aut],
+  Hadley Wickham [aut],
+  Winston Chang [aut],
+  RStudio [cph],
+  Martin Morgan [aut],
+  Dan Tenenbaum [aut],
+  Mango Solutions [cph]
+Maintainer: Jim Hester <james.hester@rstudio.com>
 Repository: CRAN
-Date/Publication: 2018-10-30 11:30:10 UTC
-Built: R 3.5.2; ; 2019-02-04 15:38:42 UTC; windows
-InstallAgent: packrat 0.5.0
-InstallSource: CRAN
-Hash: cfcf5e119ed5e6af4b47530ba59101f3
+Date/Publication: 2019-04-10 16:32:54 UTC
+Built: R 3.5.3; ; 2019-04-10 22:07:10 UTC; windows

@@ -42,38 +42,29 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                 radioButtons("inBNGType", label = "The KEY"
                             , choices = c("Budget" = "budget", "Goal" = "goal")
                 )
+                , conditionalPanel(
+                  condition = "input.inBNGType == 'budget' "
+                    , selectInput("inBNGBQs", "Select a Question"
+                                  , choices = c(	"Have I met my targets?" = "metTarget"
+                                                  , "Budget VS Actual Expense?" = "budgetExp")
+                    )
+                  )
+                 , conditionalPanel(condition = "input.inBNGType == 'goal' "
+                    , selectInput("inBNGBQs", "Select a Question"
+                               , choices = c(	"How big is the gap from my goals?" = "goalGap")
+                               )
+                 )
+                
+                
                 , checkboxInput("inBNGRobot", label = "Neptune X help me please!", value = FALSE)
                 ##  Conditionally display more quetsions base on study
                 , conditionalPanel(
                   condition = "input.inBNGRobot == true "
                   , selectInput("inBNGRobKey", "Magic Keywords"
-                                , c("cut", "better", "average"), multiple=TRUE, selectize=TRUE)
-                  
+                                , c("cut", "better", "average", "reasonable"), multiple=TRUE, selectize=TRUE)
                 )
               )
-             # , sidebarPanel(
-             #    selectInput(
-             #      "plotType", "Plot Type",
-             #      c(Scatter = "scatter",
-             #        Histogram = "hist")),
-             #    
-             #    # Only show this panel if the plot type is a histogram
-             #    conditionalPanel(
-             #      condition = "input.plotType == 'hist'",
-             #      selectInput(
-             #        "breaks", "Breaks",
-             #        c("Sturges",
-             #          "Scott",
-             #          "Freedman-Diaconis",
-             #          "[Custom]" = "custom")),
-             #      
-             #      # Only show this panel if Custom is selected
-             #      conditionalPanel(
-             #        condition = "input.breaks == 'custom'",
-             #        sliderInput("breakCount", "Break Count", min=1, max=1000, value=10)
-             #      )
-             #    )
-             #  )
+             
               , mainPanel("Budget")
   )
   , tabPanel( "Income"
@@ -87,7 +78,8 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                              # , choiceValues = qsIncomeValues
                              )
                 , dateRangeInput("inIncomeDates", "Check Date Range"
-                                 , start = (today() %m-% months(1)), end = today()
+                                 # , start = (today() %m-% months(1)), end = today()
+                                 , start = "2019-02-01", end = "2019-02-20"
                                  , min ="2018-12-01" # min(dtAcctProcessedRange$MinDate)
                                  , max = "2018-12-31"#max(dtAcctProcessedRange$MaxDate)
                                  # , separator = " to "
