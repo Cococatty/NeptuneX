@@ -51,12 +51,12 @@ basicConsolidating <- function() {
                      , TransDay = mday(TransDateCol)
                      , TransMonth = month(TransDateCol)
                      , TransYear = year(TransDateCol)
-                     , BankAcct = lapply(acctRow$AcctNum, function(x) switch(str_sub(x, -3, -1)
-                                                                      , "144" = "CC"
-                                                                      , "000"  = "Daily"
-                                                                      , "017"  = "Saver"
-                                                                      , "025"  = "Home Bills"
-                                                                      , "091"  = "Home Loan"))
+                     , BankAcct = unlist(lapply(acctRow$AcctNum, function(x) switch(str_sub(x, -3, -1)
+                                                                                    , "144" = "CC"
+                                                                                    , "000"  = "Daily"
+                                                                                    , "017"  = "Saver"
+                                                                                    , "025"  = "Home Bills"
+                                                                                    , "091"  = "Home Loan")))
     )
     
     acctRow[, c("AcctNum", "TransDate") := NULL]
@@ -88,19 +88,16 @@ basicConsolidating <- function() {
     
     ##  Merge into Final Result
     dtConslidated <<- rbind(dtConslidated, dtResult)
-    
-    # updateAcctProcessRange(dtConslidated)
-    
     # , fill = TRUE
   }
-  
+  updateAcctProcessRange(dtConslidated)
   # return(dtResult)
 }
 
 
 updateAcctProcessRange <- function(dtData) {
-  # dtData <- dtConslidated
-  minDates <- aggregate(TransDate ~ BankAcct, data = dtData, min)
+  # dtData <- dtResult
+  minDates <- aggregate(TransDate~BankAcct, data = dtData, FUN=min)
   colnames(minDates)[colnames(minDates) == "TransDate"] <- "minDate"
   
   maxDates <- aggregate(TransDate ~ BankAcct, data = dtData, max)
