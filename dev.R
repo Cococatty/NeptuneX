@@ -1,22 +1,8 @@
 
-
-#########################
-
-minDates <- aggregate(TransDate~BankAcct, data = dtData, FUN=min)
-colnames(minDates)[colnames(minDates) == "TransDate"] <- "minDate"
-
-maxDates <- aggregate(TransDate ~ BankAcct, data = dtData, max)
-colnames(maxDates)[colnames(maxDates) == "TransDate"] <- "maxDate"
-
-dtAcctDates <<- merge(minDates, maxDates, by = "BankAcct")
-
-
-
-
-
 ############################################        TS
 BankAcct <- "CC"
 tsGroup <- "BankAcct"
+plotYear <- "2019"
 
 ##  1. Subset data
 dtTS <- subset(dtReportData, BankAcct == "CC", select = c(TransYear, TransMonth, Debit) )
@@ -24,7 +10,11 @@ dtTS <- subset(dtReportData, BankAcct == "CC", select = c(TransYear, TransMonth,
 ##  Calculate the sums
 dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
 
-plot(y = dtSums$Debit, x = dtSums$TransMonth, line)
+plotMain <- paste0("The spending trend of ", BankAcct, " in ", plotYear)
+plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
+     , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
+
+# plot(y = dtSums$Debit, x = dtSums$TransMonth, line)
 
 
 scatterplot(Debit~ TransYear | TransMonth, data= dtSums)
