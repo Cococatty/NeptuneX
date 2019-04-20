@@ -7,7 +7,7 @@ library(lubridate)
 library(shinythemes)
 
 # source("Setup Data.R")
-source("main functions.R")
+source("mainFunctions.R")
 
 
 ##################                  STRUCTURAL SETUP                  ##################
@@ -30,10 +30,10 @@ dtConslidated <<- data.table(
 #                                     , minDate = ymd()
 #                                     , maxDate = ymd()
 # )
-dtAcctProcessedRange <<- data.table(
-  BankAcct = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
-  , MinDate = ymd("2018-04-01")
-  , MaxDate = ymd("2019-04-20")
+dtAcctDates <<- data.table(
+  BankAcct = character()
+  , MinDate = ymd()
+  , MaxDate = ymd()
 )
 
 qsIncomeValues <<- list("receivedAll", "missPayments")
