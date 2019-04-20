@@ -1,5 +1,5 @@
-source("Main Setup.R")
-### source("Main Functions.R")
+source("main setup.R")
+### source("main functions.R")
 
 
 shinyServer(function(input, output, session) {

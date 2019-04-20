@@ -3,6 +3,7 @@ library(magrittr)
 library(data.table)
 library(lubridate)
 library(stringr)
+library(car)
 
 ##########            LOAD RAW DATA TO ENVIRONMENT            ##########
 
@@ -201,11 +202,15 @@ buildTSData <- function(tsGroup) {
   
   ##  Calculate the sums
   dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
-  plot(y = dtSums$Debit, x = dtSums$TransMonth)
-  install.packages("car")
-  library(car)
+  
+  plot(y = dtSums$Debit, x = dtSums$TransMonth, line)
+  
+  
   scatterplot(Debit~ TransYear | TransMonth, data= dtSums)
   tsSum <- ts(dtSums$Debit, start = c(2018, 11), frequency = 1)
+  
+  ?ts
+  
   plot.ts(tsSum)
   plot(x = dtSums$TransYear, y = dtSums$Debit)
   ??scatterplot

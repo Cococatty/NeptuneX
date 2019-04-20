@@ -1,10 +1,10 @@
 auto.snapshot: TRUE
 use.cache: FALSE
 print.banner.on.startup: auto
-vcs.ignore.lib: FALSE
-vcs.ignore.src: FALSE
+vcs.ignore.lib: TRUE
+vcs.ignore.src: TRUE
 external.packages: 
-local.repos: C:/Projects/Neptune/downloaded_packages
+local.repos: /Projects/Neptune/downloaded_packages
 load.external.packages.on.startup: TRUE
 ignored.packages: 
 ignored.directories:
