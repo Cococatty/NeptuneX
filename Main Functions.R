@@ -9,7 +9,7 @@ library(stringr)
 
 ## Example fileName is # AXXXX_XXXX_XXXX_6144-07Nov18.csv
 loadData <- function(AcctNum, MonthsToProcess) {
-  fileToRead <- paste0("Inputs/", AcctNum, "-", MonthsToProcess, ".csv")
+  fileToRead <- paste0("inputs/", AcctNum, "-", MonthsToProcess, ".csv")
   importedData <- data.table(read.csv(fileToRead
                       , colClasses = c("character"))
              , stringsAsFactors = F)

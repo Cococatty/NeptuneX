@@ -37,6 +37,8 @@ install.packages("pbkrtest", defaultLibraryLoc)
 install.packages("shinythemes", defaultLibraryLoc)
 
 install.packages("data.table")
+install.packages("car")
+
 
 update.packages(lib.loc = "C:/Program Files/RStudio/library/3.2")
 

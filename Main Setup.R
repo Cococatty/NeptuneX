@@ -7,7 +7,7 @@ library(lubridate)
 library(shinythemes)
 
 # source("Setup Data.R")
-source("Main Functions.R")
+source("main functions.R")
 
 
 ##################                  STRUCTURAL SETUP                  ##################

@@ -2,8 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-/Inputs/*
-/Outputs/*
+/inputs/*
+/outputs/*
 downloaded_packages/*
-/Example/*
+/example/*
 packrat/bundles/Neptune-2019-04-14.tar.gz
