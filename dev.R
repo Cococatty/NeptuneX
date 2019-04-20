@@ -1,3 +1,26 @@
+
+input paste0(getwd(), "inputs", collapse = "/")
+list.files(path = getwd(), pattern=NULL, all.files=FALSE, full.names=FALSE) 
+
+
+rawDataFiles <- list.files(path = "inputs", pattern=NULL, all.files=FALSE, full.names=FALSE)
+
+
+
+# loadData <- function(AcctNum) {
+  
+  fileToRead <- paste0("inputs/", rawDataFiles[i])
+  
+  importedData <- data.table(read.csv(fileToRead
+                                      , colClasses = c("character"))
+                             , stringsAsFactors = F)
+  
+  ##  TAKE OUT SPECIAL CHARACTER OF "." IN COLUMN NAMES
+  names(importedData) <- gsub(pattern = "[.]", x = names(importedData), "")
+  return(importedData)
+  
+
+############################################        TS
 BankAcct <- "CC"
 tsGroup <- "BankAcct"
 
