@@ -32,8 +32,8 @@ dtConslidated <<- data.table(
 # )
 dtAcctProcessedRange <<- data.table(
   BankAcct = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
-  , MinDate = ymd("2018-11-08")
-  , MaxDate = ymd("2018-01-08")
+  , MinDate = ymd("2018-04-01")
+  , MaxDate = ymd("2019-04-20")
 )
 
 qsIncomeValues <<- list("receivedAll", "missPayments")
@@ -49,7 +49,7 @@ qsIncomeNames <<- list("Have I received all expected money?", "What payments are
 # AXXXX_XXXX_XXXX_6144-07Nov18.csv
 
 dtColStructure <<- data.table(
-  # BankAcct = c("CC", "Daily", "Saver", "Home Bills", "Home Loan") 
+  # BankAcct = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
   AcctNum = c("AXXXX_XXXX_XXXX_6144", "A0315920567389000", "A0315920567389017","A0315920567389025", "A0315920567389091")
   , Reference = c("CreditPlanName", "AnalysisCode", "Particulars", "Particulars-AnalysisCode", "Particulars-AnalysisCode")
   , OtherParty = c("OtherParty", "OtherParty-Particulars", "OtherParty-Description", "OtherParty", "OtherParty")
@@ -58,8 +58,10 @@ dtColStructure <<- data.table(
   , TransDate = c("TransactionDate", "Date", "Date", "Date", "Date")
 ) 
 
+
+
 # MonthsToProcess <<- c("2018-4", "2018-5")
-MonthsToProcess <<- "07Nov18"
+# MonthsToProcess <<- "01Apr18"
 
 acctKeywordsList <<- list(
                               Household = list("Home Loan", "Home Repayment", "Home Bills", "CCC", "Powershop", "Two Degrees"

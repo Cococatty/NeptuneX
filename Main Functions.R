@@ -9,7 +9,7 @@ library(car)
 
 
 ## Example fileName is # AXXXX_XXXX_XXXX_6144-07Nov18.csv
-loadData <- function(AcctNum, MonthsToProcess) {
+loadData <- function(AcctNum) {
   fileToRead <- paste0("inputs/", AcctNum, "-", MonthsToProcess, ".csv")
   importedData <- data.table(read.csv(fileToRead
                       , colClasses = c("character"))
@@ -28,22 +28,22 @@ loadData <- function(AcctNum, MonthsToProcess) {
 ##
 
 basicConsolidating <- function() {
-
+  
+  rawDataFiles <- list.files(path = "inputs", pattern=NULL, all.files=FALSE, full.names=FALSE)
+  
   ##  i for Accounts
   for (i in 1:nrow(dtColStructure)) {
     acctRow <- dtColStructure[i,]
     
-    dtRawTransactions <- loadData(AcctNum = acctRow$AcctNum, MonthsToProcess = MonthsToProcess)
     
-    ##  Set up BankAcct value by last 3 digits of accout number
-     BankAcct <- switch(str_sub(acctRow$AcctNum, -3, -1) 
-                        , "144" = "CC" 
-                        , "000"  = "Daily"
-                        , "017"  = "Saver"
-                        , "025"  = "Home Bills"
-                        , "091"  = "Home Loan"
-     )
-     
+    fileToRead <- paste0("inputs/", rawDataFiles[ grep(acctRow$AcctNum, rawDataFiles) ])
+    dtRawTransactions <- data.table(read.csv(fileToRead
+                                        , colClasses = c("character"))
+                               , stringsAsFactors = F)
+    
+    ##  TAKE OUT SPECIAL CHARACTER OF "." IN COLUMN NAMES
+    names(dtRawTransactions) <- gsub(pattern = "[.]", x = names(dtRawTransactions), "")
+    
     ##  Fixed Columns
     TransDateCol <- dmy(dtRawTransactions[, get(acctRow$TransDate)])
     dtResult <- data.table(TransDate = ymd(TransDateCol)
@@ -51,7 +51,12 @@ basicConsolidating <- function() {
                      , TransDay = mday(TransDateCol)
                      , TransMonth = month(TransDateCol)
                      , TransYear = year(TransDateCol)
-                     , BankAcct = BankAcct
+                     , BankAcct = lapply(acctRow$AcctNum, function(x) switch(str_sub(x, -3, -1)
+                                                                      , "144" = "CC"
+                                                                      , "000"  = "Daily"
+                                                                      , "017"  = "Saver"
+                                                                      , "025"  = "Home Bills"
+                                                                      , "091"  = "Home Loan"))
     )
     
     acctRow[, c("AcctNum", "TransDate") := NULL]
@@ -77,8 +82,6 @@ basicConsolidating <- function() {
       }
     }
     
-    
-    
     ##  Reorder Columns
     setcolorder(dtResult, names(dtConslidated))
     dtResult[, Amount := as.numeric(Amount)]
@@ -86,11 +89,10 @@ basicConsolidating <- function() {
     ##  Merge into Final Result
     dtConslidated <<- rbind(dtConslidated, dtResult)
     
-    updateAcctProcessRange(dtConslidated)
+    # updateAcctProcessRange(dtConslidated)
     
     # , fill = TRUE
   }
-  
   
   # return(dtResult)
 }
