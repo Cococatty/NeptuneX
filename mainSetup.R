@@ -9,7 +9,6 @@ library(shinythemes)
 # source("Setup Data.R")
 source("mainFunctions.R")
 
-
 ##################                  STRUCTURAL SETUP                  ##################
 dtFormattedRawData <<- data.table(
                       Reference = character()
@@ -84,6 +83,16 @@ acctKeywordsList <<- list(
 
 basicConsolidating()
 categorizeGrouping()
+
+
+##################                  DATA SETUP                  ##################
+
+##########    THE DATE RANGE HAS TO BE SETUP AFTER BASIC OPERATION
+dateRangeEnd <<- min(dtAcctDates$MaxDate)
+dateRangeStart <<- dateRangeEnd %m-% months(1)
+
+dateRangeMin <<- min(dtAcctDates$MinDate)
+dateRangeMax <<- max(dtAcctDates$MaxDate)
 
 
 # View(dtFormattedRawData)

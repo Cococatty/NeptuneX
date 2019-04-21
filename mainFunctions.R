@@ -103,10 +103,10 @@ basicConsolidating <- function() {
 updateAcctProcessRange <- function(dtData) {
   # dtData <- dtResult
   MinDates <- aggregate(TransDate~BankAcct, data = dtData, FUN=min)
-  colnames(MinDates)[colnames(MinDates) == "TransDate"] <- "minDate"
+  colnames(MinDates)[colnames(MinDates) == "TransDate"] <- "MinDate"
   
   MaxDates <- aggregate(TransDate ~ BankAcct, data = dtData, max)
-  colnames(MaxDates)[colnames(MaxDates) == "TransDate"] <- "maxDate"
+  colnames(MaxDates)[colnames(MaxDates) == "TransDate"] <- "MaxDate"
   
   dtAcctDates <<- merge(MinDates, MaxDates, by = "BankAcct")
 }

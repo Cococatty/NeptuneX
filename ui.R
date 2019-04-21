@@ -16,11 +16,9 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                                   , choices = c(dtAcctDates$BankAcct)
                                   , selected = "CC")
               , dateRangeInput("spendDates", "Transaction Date Range"
-                               # , start = (today() %m-% months(1)), end = today()
-                               , start = "2018-12-01", end = "2018-12-31"
-                               , min ="2018-12-01" # min(dtAcctProcessedRange$MinDate)
-                               , max = "2018-12-31"#max(dtAcctProcessedRange$MaxDate)
-                               # , separator = " to "
+                               , start = dateRangeStart, end = dateRangeEnd
+                               , min = dateRangeMin
+                               , max = dateRangeMax
               )
               , checkboxInput("spendWTK", "I want to know...", value = FALSE)
               # I want to know
@@ -30,11 +28,9 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
               , conditionalPanel(condition = "input.spendWTK == true "
                                  , dateRangeInput("spendWTKDates"
                                                   , paste("I want to know", "The total amount of money spent from StartDate to EndDate", sep="\n") 
-                                                    # , start = (today() %m-% months(1)), end = today()
-                                                    , start = "2018-12-01", end = "2018-12-31"
-                                                    , min ="2018-12-01" # min(dtAcctProcessedRange$MinDate)
-                                                    , max = "2018-12-31"#max(dtAcctProcessedRange$MaxDate)
-                                                    # , separator = " to "
+                                                  , start = dateRangeStart, end = dateRangeEnd
+                                                  , min = dateRangeMin
+                                                  , max = dateRangeMax
                                  )
                                  , selectInput("spendWTKGrpByType", "By ", choices = c("account", "ExpCategory"))
                                  , selectInput("spendWTKGrpByValue", "Of ", choices = c("listOfAccts", "ExpCategory"))
@@ -101,10 +97,9 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                              )
                 , dateRangeInput("inIncomeDates", "Check Date Range"
                                  # , start = (today() %m-% months(1)), end = today()
-                                 , start = "2019-02-01", end = "2019-02-20"
-                                 , min ="2018-12-01" # min(dtAcctProcessedRange$MinDate)
-                                 , max = "2018-12-31"#max(dtAcctProcessedRange$MaxDate)
-                                 # , separator = " to "
+                                 , start = dateRangeStart, end = dateRangeEnd
+                                 , min = dateRangeMin
+                                 , max = dateRangeMax
                 )
               )
               , mainPanel( "Income" )
