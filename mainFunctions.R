@@ -170,17 +170,9 @@ plotSimple <- function(plotAcct, plotDateRange) {
                        , select = c(TransYear, TransMonth, Debit, BankAcct) )
   
   
-  # print( paste0("plotAcct in plotSimple() is ", plotAcct, " date range: ", plotDateRange, collapse = "--") )
-  # print(dtPlotData)
-  # 
-  # 
-  # 
-  
   ##  Calculate the sums
   dtSums <- aggregate(Debit ~ . , data = dtPlotData, FUN = sum)
 
-  # plotTitles <- paste0("The spending trend of ", unique(dtSums$BankAcct) )
-  
   return(dtSums)
 }
 

@@ -37,8 +37,11 @@ shinyServer(function(input, output, session) {
   
 
   
-  observeEvent(input$spendAccts, {
-
+  observeEvent(
+    {input$spendAccts
+    input$spendDates}
+    
+    , {
     for (i in seq_len(length(input$spendAccts))) {
       local({
         plotName <- paste0("plotSimple", i)
@@ -49,11 +52,8 @@ shinyServer(function(input, output, session) {
         output[[plotName]] <- renderPlot({
           plot(x = plotData$TransMonth, y = plotData$Debit, type = "l"
                                   , main = plotTitle, xlab = "Transaction Month", ylab = "Amount (in $)")
-        })
-        
-        
-      })}
-    
+          })
+        })}
   })
   
   
