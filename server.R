@@ -8,6 +8,8 @@ shinyServer(function(input, output, session) {
   
   ## updateTS
   nPlots <<- 1
+  output$testText <- renderText("testText1")
+  
   
   # observe({
   #   print(paste0("test input is ", input$spendDates))
@@ -33,29 +35,27 @@ shinyServer(function(input, output, session) {
     # tagList(plotsOutputList)
   })
   
-  
-  
-  # plotOutput(plotsList)
-  # testText1 <<- "test data "
-  
 
-  output$testText <- renderText("testText1")
+  
   observeEvent(input$spendAccts, {
-  for (i in seq_len(length(input$spendAccts))) {
-  local({
-    j <- i
-    plotName <- paste0("plotSimple", j)
-    plotData <- plotSimple(input$spendAccts[j], input$spendDates)
-    plotTitle <- paste0("The spending trend of ", input$spendAccts[j] )
 
-    output[[plotName]] <- renderPlot({
-      plot(x = plotData$TransMonth, y = plotData$Debit, type = "l"
-                        , main = plotTitle, xlab = "Transaction Month", ylab = "Amount (in $)")
-
-    })
+    for (i in seq_len(length(input$spendAccts))) {
+      local({
+        plotName <- paste0("plotSimple", i)
+        currentAcct <- input$spendAccts[i]
+        plotData <- plotSimple(currentAcct, input$spendDates)
+        plotTitle <- paste0("The spending trend of ", currentAcct)
+        
+        output[[plotName]] <- renderPlot({
+          plot(x = plotData$TransMonth, y = plotData$Debit, type = "l"
+                                  , main = plotTitle, xlab = "Transaction Month", ylab = "Amount (in $)")
+        })
+        
+        
+      })}
+    
   })
   
-  }})
   
   #################                      SPENDING, ANNUAL                      #################
   output$spendPlotsAnnual <- renderUI({
