@@ -35,7 +35,7 @@ basicConsolidating <- function() {
   for (i in 1:nrow(dtColStructure)) {
     acctRow <- dtColStructure[i,]
     
-    
+    ##  FIND THE RIGHT FILE TO READ
     fileToRead <- paste0("inputs/", rawDataFiles[ grep(acctRow$AcctNum, rawDataFiles) ])
     dtRawTransactions <- data.table(read.csv(fileToRead
                                         , colClasses = c("character"))
@@ -49,7 +49,7 @@ basicConsolidating <- function() {
     dtResult <- data.table(TransDate = ymd(TransDateCol)
                      , TransWDay = wday(TransDateCol, label = TRUE)
                      , TransDay = mday(TransDateCol)
-                     , TransMonth = month(TransDateCol)
+                     , TransMonth = format.Date(TransDateCol, "%m")
                      , TransYear = year(TransDateCol)
                      , BankAcct = unlist(lapply(acctRow$AcctNum, function(x) switch(str_sub(x, -3, -1)
                                                                                     , "144" = "CC"
@@ -142,22 +142,46 @@ categorizeGrouping <- function(){
 }
 
 
+deriveSelectedDateRange <- function(selectedDateRange) {
+  drStart <- selectedDateRange[1]
+  drEnd <- selectedDateRange[2]
+  
+  drStartYear <- year(drStart)
+  drStartMonth <- format.Date(drStart, "%m")
+  drEndYear <- year(drEnd)
+  drEndMonth <- format.Date(drEnd, "%m")
+  
+  drValues <- list(drStartYear = drStartYear, drStartMonth = drStartMonth
+                , drEndYear = drEndYear, drEndMonth = drEndMonth)
+  return(drValues)
+}
+
 
 ####################            SIMPLE PLOTS            ####################
-plotSimple <- function(plotAcct, plotYear) {
-  tsGroup <- "BankAcct"
+plotSimple <- function(plotAcct, plotDateRange) {
+
+  StartDate <- ymd(plotDateRange[1])
+  EndDate <- ymd(plotDateRange[2])
   
   ##  1. Subset data
-  dtTS <- subset(dtFormattedRawData, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
+  dtPlotData <- subset(dtFormattedRawData
+                       , BankAcct == plotAcct 
+                       & TransDate >= StartDate & TransDate <=EndDate
+                       , select = c(TransYear, TransMonth, Debit, BankAcct) )
+  
+  
+  # print( paste0("plotAcct in plotSimple() is ", plotAcct, " date range: ", plotDateRange, collapse = "--") )
+  # print(dtPlotData)
+  # 
+  # 
+  # 
   
   ##  Calculate the sums
-  dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
-  
-  plotMain <- paste0("The spending trend of ", plotAcct, " in ", plotYear)
-  basicPlot <- plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
-                    , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
+  dtSums <- aggregate(Debit ~ . , data = dtPlotData, FUN = sum)
 
-  return(plotMain)
+  # plotTitles <- paste0("The spending trend of ", unique(dtSums$BankAcct) )
+  
+  return(dtSums)
 }
 
 
@@ -335,3 +359,9 @@ testComponent <- function() {
   
 # dtResult[, ":=" (Note = dtSource[, get(Note)]
 }
+
+
+
+# yearMonthValues <- deriveSelectedDateRange(plotDateRange)
+# & TransYear >= yearMonthValues$drStartYear & TransYear <= yearMonthValues$drEndYear
+# & TransMonth >= yearMonthValues$drStartMonth & TransMonth <= yearMonthValues$drEndMonth

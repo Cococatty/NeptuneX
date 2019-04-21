@@ -6,6 +6,8 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
   
   # Spending
   tabPanel( "Spending" # menuSpending, # "Plot tab contents..."
+          
+            ########        SIDE BAR, SPENDING          ########
           , sidebarPanel(
               # sliderInput("spendNumGrp", "Number of Accounts to"
               #             , min = 1, max = 5, value = 3
@@ -14,7 +16,8 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                                   , choices = c(dtAcctDates$BankAcct)
                                   , selected = "CC")
               , dateRangeInput("spendDates", "Transaction Date Range"
-                               , start = dateRangeStart, end = dateRangeEnd
+                               , start = ymd("2018-09-01") # dateRangeStart
+                               , end = dateRangeEnd
                                , min = dateRangeMin
                                , max = dateRangeMax
               )
@@ -35,13 +38,17 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
               )
             )
           
+          ########        MAIN PANEL, SPENDING          ########
           , mainPanel(
               tabsetPanel(
                 tabPanel("Monthly Spending"
-                         , mainPanel(plotOutput("spendPlotMnth"))
+                         # , mainPanel(plotOutput("spendPlotMnth"))
+                         , mainPanel(
+                           textOutput("testText"),
+                           uiOutput("spendPlotsMnth"))
                 )
                 , tabPanel("Annual Spending"
-                            , mainPanel(uiOutput("spendPlotAnnual")
+                            , mainPanel(uiOutput("spendPlotsAnnual")
                           )
                               )
                 , tabPanel("Debit VS Credit" #, width = 12

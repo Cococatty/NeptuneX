@@ -5,6 +5,7 @@ rm(list = ls(all = TRUE))
 library(data.table)
 library(lubridate)
 library(shinythemes)
+library(googleVis)
 
 # source("Setup Data.R")
 source("mainFunctions.R")
