@@ -16,8 +16,7 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                                   , choices = c(dtAcctDates$BankAcct)
                                   , selected = "CC")
               , dateRangeInput("spendDates", "Transaction Date Range"
-                               , start = ymd("2018-09-01") # dateRangeStart
-                               , end = dateRangeEnd
+                               , start = dateRangeStart, end = dateRangeEnd
                                , min = dateRangeMin
                                , max = dateRangeMax
               )
