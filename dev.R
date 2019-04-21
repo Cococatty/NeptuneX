@@ -1,18 +1,27 @@
 
 ############################################        TS
-BankAcct <- "CC"
-tsGroup <- "BankAcct"
-plotYear <- "2019"
+# plotSimple <- function(plotAcct, tsGroup) {
+  BankAcct <- "CC"
+  tsGroup <- "BankAcct"
+  plotYear <- "2019"
+  
+  ##  1. Subset data
+  dtTS <- subset(dtConslidated, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
+  
+  ##  Calculate the sums
+  dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
+  
+  plotMain <- paste0("The spending trend of ", plotAcct, " in ", plotYear)
+  basicPlot <- plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
+                    , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
+  
+  return(plotMain)
+}
 
-##  1. Subset data
-dtTS <- subset(dtReportData, BankAcct == "CC", select = c(TransYear, TransMonth, Debit) )
 
-##  Calculate the sums
-dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
 
-plotMain <- paste0("The spending trend of ", BankAcct, " in ", plotYear)
-basicPlot <- plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
-                  , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
+
+
 
 tsSum <- ts(dtSums$Debit, start = c(min(dtSums$TransYear), max(dtSums$TransMonth)), frequency = 12)
 

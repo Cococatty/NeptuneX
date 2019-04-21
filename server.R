@@ -13,22 +13,17 @@ shinyServer(function(input, output, session) {
   
   ## updateTS
   nPlots <<- 1
-  observe({
-    nPlots <<- input$spendNumGrp
-    if (nPlots == 0) nPlots <<- 1
-    print(paste0("changing ", nPlots))
-  })
+  # observe({
+  #   nPlots <<- input$spend
+  #   if (nPlots == 0) nPlots <<- 1
+  #   print(paste0("changing ", nPlots))
+  # })
 
-  #################                      SPENDING TAB                      #################
-  output$spendPlotMnth <- renderPlot(plotSimple(input$spendCategory, "BankAcct", "2019"))
+  #################                      SPENDING, MNTH                      #################
+  output$spendPlotMnth <- renderPlot(plotSimple(input$spendAccts, "2019"))
   
   
-  
-  output$spendTblDC <- renderDataTable(
-       calcDebVSCred()
-   )
-
-  #################                      TS TAB                      #################
+  #################                      SPENDING, ANNUAL                      #################
   output$spendPlotAnnual <- renderUI({
     plotsListTSSimple <- lapply(1:nPlots
                                 , function(i) {
@@ -68,4 +63,9 @@ shinyServer(function(input, output, session) {
     do.call(tagList, plotsListTSSimple)
   })
 
+  
+  #################                      SPENDING, D&C TABLE                      #################
+  output$spendTblDC <- renderDataTable(
+    calcDebVSCred()
+  )
 })

@@ -95,6 +95,11 @@ basicConsolidating <- function() {
 }
 
 
+##########            ACCOUNTS DATES TABLE            ##########
+##  PURPOSE:
+##  1.  Hold records of date ranges by accounts, so that the relevant info can be used in display and potentially, 
+##      further process.
+##
 updateAcctProcessRange <- function(dtData) {
   # dtData <- dtResult
   MinDates <- aggregate(TransDate~BankAcct, data = dtData, FUN=min)
@@ -104,10 +109,8 @@ updateAcctProcessRange <- function(dtData) {
   colnames(MaxDates)[colnames(MaxDates) == "TransDate"] <- "maxDate"
   
   dtAcctDates <<- merge(MinDates, MaxDates, by = "BankAcct")
-  
-  # if (nrow(dtAcctProcessedRange) == 0 )  dtAcctProcessedRange <<- rbind(dtAcctProcessedRange, dtAcctDates)
-  # else dtAcctProcessedRange[ BankAcct == dtAcctProcessedRange$BankAcct]
 }
+
 
 ##########            PREPARE DATA FOR REPORT            ##########
 ##  PURPOSE:
@@ -141,10 +144,8 @@ categorizeGrouping <- function(){
 
 
 ####################            SIMPLE PLOTS            ####################
-plotSimple <- function(plotAcct, tsGroup, plotYear) {
-  # BankAcct <- "CC"
-  # tsGroup <- "BankAcct"
-  # plotYear <- "2019"
+plotSimple <- function(plotAcct, plotYear) {
+  tsGroup <- "BankAcct"
   
   ##  1. Subset data
   dtTS <- subset(dtConslidated, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )

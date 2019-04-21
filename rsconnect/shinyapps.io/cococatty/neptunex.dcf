@@ -5,6 +5,6 @@ account: cococatty
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 878588
-bundleId: 2025830
+bundleId: 2025945
 url: https://cococatty.shinyapps.io/NeptuneX/
-when: 1555800146.6618
+when: 1555806278.46176

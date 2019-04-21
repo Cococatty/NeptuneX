@@ -1,16 +1,20 @@
+source("mainSetup.R")
+source("mainFunctions.R")
+
 shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
              theme = shinythemes::shinytheme("superhero"),
   
   # Spending
   tabPanel( "Spending" # menuSpending, # "Plot tab contents..."
           , sidebarPanel(
-              sliderInput("spendNumGrp", "Number of Categories"
-                          , min = 1, max = 5, value = 3
-              )
-              , checkboxGroupInput("spendCategory", "Selected Categories"
+              # sliderInput("spendNumGrp", "Number of Accounts to"
+              #             , min = 1, max = 5, value = 3
+              # )
+              checkboxGroupInput("spendAccts", "Select accounts to analysis"
                                    ##    TO DO:    Change to use dynamic table input, e.g. dtAcctProcessedRange$BankAcct
-                                   , choices = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
-                                   , selected = "CC")
+                                   # , choices = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
+                                  , choices = c(dtAcctDates$BankAcct)
+                                  , selected = "CC")
               , dateRangeInput("spendDates", "Transaction Date Range"
                                # , start = (today() %m-% months(1)), end = today()
                                , start = "2018-12-01", end = "2018-12-31"
