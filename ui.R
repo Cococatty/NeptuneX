@@ -11,8 +11,6 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
               #             , min = 1, max = 5, value = 3
               # )
               checkboxGroupInput("spendAccts", "Select accounts to analysis"
-                                   ##    TO DO:    Change to use dynamic table input, e.g. dtAcctProcessedRange$BankAcct
-                                   # , choices = c("CC", "Daily", "Saver", "Home Bills", "Home Loan")
                                   , choices = c(dtAcctDates$BankAcct)
                                   , selected = "CC")
               , dateRangeInput("spendDates", "Transaction Date Range"
@@ -44,7 +42,6 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                 )
                 , tabPanel("Annual Spending"
                             , mainPanel(uiOutput("spendPlotAnnual")
-                                  # plotOutput("plotsTSSpending", width = "200%", height = "400px")
                           )
                               )
                 , tabPanel("Debit VS Credit" #, width = 12
@@ -96,7 +93,6 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                              # , choiceValues = qsIncomeValues
                              )
                 , dateRangeInput("inIncomeDates", "Check Date Range"
-                                 # , start = (today() %m-% months(1)), end = today()
                                  , start = dateRangeStart, end = dateRangeEnd
                                  , min = dateRangeMin
                                  , max = dateRangeMax
