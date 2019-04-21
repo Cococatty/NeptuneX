@@ -25,11 +25,7 @@ dtConslidated <<- data.table(
                       , TransYear = integer()
 )
 
-# dtAcctProcessedRange <<- data.table(
-#                                     BankAcct = character()
-#                                     , minDate = ymd()
-#                                     , maxDate = ymd()
-# )
+
 dtAcctDates <<- data.table(
   BankAcct = character()
   , MinDate = ymd()

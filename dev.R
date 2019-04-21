@@ -11,22 +11,17 @@ dtTS <- subset(dtReportData, BankAcct == "CC", select = c(TransYear, TransMonth,
 dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
 
 plotMain <- paste0("The spending trend of ", BankAcct, " in ", plotYear)
-plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
-     , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
-
-# plot(y = dtSums$Debit, x = dtSums$TransMonth, line)
-
-
-scatterplot(Debit~ TransYear | TransMonth, data= dtSums)
+basicPlot <- plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
+                  , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
 
 tsSum <- ts(dtSums$Debit, start = c(min(dtSums$TransYear), max(dtSums$TransMonth)), frequency = 12)
 
-tsSumV <- as.vector(tsSum)
-
 plot(tsSum)
 plot.ts(tsSum$y)
-plot.ts(tsSumV)
+plot.ts(tsSum)
 plot(x = dtSums$TransYear, y = dtSums$Debit)
+
+scatterplot(Debit~ TransYear | TransMonth, data= dtSums)
 
 z <- ts(matrix(rt(200 * 8, df = 3), 200, 8),
         start = c(1961, 1), frequency = 12)

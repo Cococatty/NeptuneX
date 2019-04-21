@@ -1,5 +1,5 @@
-source("main setup.R")
-### source("main functions.R")
+source("mainSetup.R")
+source("mainFunctions.R")
 
 
 shinyServer(function(input, output, session) {
@@ -14,17 +14,22 @@ shinyServer(function(input, output, session) {
   ## updateTS
   nPlots <<- 1
   observe({
-    nPlots <<- input$inTSNumGrp
+    nPlots <<- input$spendNumGrp
     if (nPlots == 0) nPlots <<- 1
     print(paste0("changing ", nPlots))
   })
 
-
-  output$tblDC <- renderDataTable(
+  #################                      SPENDING TAB                      #################
+  output$spendPlotMnth <- renderPlot(plotSimple(input$spendCategory, "BankAcct", "2019"))
+  
+  
+  
+  output$spendTblDC <- renderDataTable(
        calcDebVSCred()
    )
 
-  output$plotsTSSpending <- renderUI({
+  #################                      TS TAB                      #################
+  output$spendPlotAnnual <- renderUI({
     plotsListTSSimple <- lapply(1:nPlots
                                 , function(i) {
       plotName <- paste0("plotTS", i, collapse = "")

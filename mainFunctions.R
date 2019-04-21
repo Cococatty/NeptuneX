@@ -140,6 +140,24 @@ categorizeGrouping <- function(){
 
 
 
+####################            SIMPLE PLOTS            ####################
+plotSimple <- function(plotAcct, tsGroup, plotYear) {
+  # BankAcct <- "CC"
+  # tsGroup <- "BankAcct"
+  # plotYear <- "2019"
+  
+  ##  1. Subset data
+  dtTS <- subset(dtConslidated, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
+  
+  ##  Calculate the sums
+  dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
+  
+  plotMain <- paste0("The spending trend of ", plotAcct, " in ", plotYear)
+  basicPlot <- plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
+                    , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
+
+  return(plotMain)
+}
 
 
 
