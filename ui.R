@@ -25,7 +25,7 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
               , checkboxInput("spendWTK", "I want to know...", value = FALSE)
               # I want to know
               # The total amount of money spent from StartDate to EndDate
-              # By GroupByType (acct or category)
+              # By GroupByType (acct or ExpCategory)
               # Of AcctName or CategoryList
               , conditionalPanel(condition = "input.spendWTK == true "
                                  , dateRangeInput("spendWTKDates"
@@ -36,8 +36,8 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                                                     , max = "2018-12-31"#max(dtAcctProcessedRange$MaxDate)
                                                     # , separator = " to "
                                  )
-                                 , selectInput("spendWTKGrpByType", "By ", choices = c("account", "category"))
-                                 , selectInput("spendWTKGrpByValue", "Of ", choices = c("listOfAccts", "category"))
+                                 , selectInput("spendWTKGrpByType", "By ", choices = c("account", "ExpCategory"))
+                                 , selectInput("spendWTKGrpByValue", "Of ", choices = c("listOfAccts", "ExpCategory"))
               )
             )
           

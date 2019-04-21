@@ -83,14 +83,14 @@ basicConsolidating <- function() {
     }
     
     ##  Reorder Columns
-    setcolorder(dtResult, names(dtConslidated))
+    setcolorder(dtResult, names(dtFormattedRawData))
     dtResult[, Amount := as.numeric(Amount)]
     
     ##  Merge into Final Result
-    dtConslidated <<- rbind(dtConslidated, dtResult)
+    dtFormattedRawData <<- rbind(dtFormattedRawData, dtResult)
     # , fill = TRUE
   }
-  updateAcctProcessRange(dtConslidated)
+  updateAcctProcessRange(dtFormattedRawData)
   # return(dtResult)
 }
 
@@ -119,26 +119,26 @@ updateAcctProcessRange <- function(dtData) {
 ##
 
 categorizeGrouping <- function(){
-  dtReportData <<- dtConslidated
+  dtReportData <<- dtFormattedRawData
   dtReportData[, ":=" (
     Debit = ifelse(Amount < 0, abs(Amount), 0)
     , Credit = ifelse(Amount > 0, abs(Amount), 0)
-    , AcctType = ifelse(Amount < 0, "Debit", "Credit")
+    , BalType = ifelse(Amount < 0, "Debit", "Credit")
   )]
   
   ##  If Account is of "Home", then count it as "Household"
-  dtReportData[grep("Home", BankAcct), Category := "HouseHold"]
+  dtReportData[grep("Home", BankAcct), ExpCategory := "HouseHold"]
   
-  ##  Otherwise, assign Category by setup in acctKeywordsList
+  ##  Otherwise, assign Expense Category by setup in acctKeywordsList
   for (i in names(acctKeywordsList)) {
     # print(i)
     lsKeys <- unlist(acctKeywordsList[i])
     strKeys <- grepl(pattern = paste0(lsKeys, collapse = "|"), x = dtReportData$OtherParty, ignore.case = TRUE)
     # print(paste0(lsKeys, collapse = "|"))
-    dtReportData[(strKeys == TRUE), Category := i]
+    dtReportData[(strKeys == TRUE), ExpCategory := i]
   }
   
-  # fwrite(x = dtReportData[is.na(Category),], file = "Outputs/MI - Groups to Clear.tsv", sep = "\t")
+  # fwrite(x = dtReportData[is.na(ExpCategory),], file = "Outputs/MI - Groups to Clear.tsv", sep = "\t")
 }
 
 
@@ -148,7 +148,7 @@ plotSimple <- function(plotAcct, plotYear) {
   tsGroup <- "BankAcct"
   
   ##  1. Subset data
-  dtTS <- subset(dtConslidated, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
+  dtTS <- subset(dtFormattedRawData, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
   
   ##  Calculate the sums
   dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
@@ -165,7 +165,7 @@ plotSimple <- function(plotAcct, plotYear) {
 
 ####################            ANALYSIS DATA            ####################
 calcDebVSCred <- function() {
-  dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$AcctType, FUN=sum)
+  dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$BalType, FUN=sum)
   dtResult <- data.table(Credit = dtCalc["Credit"]
                          , Debit = dtCalc["Debit"])
   
@@ -178,11 +178,22 @@ calcDebVSCred <- function() {
   #   dtResult[, as.character(i) := dtCalc[names(dtCalc)]]
   # }
   
-  # dtReportData[, sum(Amount), by = .(AcctType)]
-  # aggregate(as.numeric(dtReportData$Amount), by = list(AcctType = dtReportData$AcctType), FUN = sum)
+  # dtReportData[, sum(Amount), by = .(BalType)]
+  # aggregate(as.numeric(dtReportData$Amount), by = list(BalType = dtReportData$BalType), FUN = sum)
   return(dtResult)
 }
 
+
+
+
+
+########################          TO COMPLETE          ########################
+########################          
+########################          
+########################          
+########################          
+########################          
+########################          
 ##########            APPLY TIME SERIES TO DATA            ##########
 ##  PURPOSE:
 ##  1. Assign relevant categories
@@ -236,15 +247,15 @@ buildTSData <- function(tsGroup) {
   rowFirst <- dtReportData[1,]
   # ts(dtTS, start = c(rowFirst$TransYear, rowFirst$TransMonth), frequency = 12 )
   # dtTS[, sum(Debit), by = .(TransYear, TransMonth)]
-  # aggregate(as.numeric(abs(dtReportData$Amount)), by = list(AcctType = dtReportData$AcctType), FUN = sum)
+  # aggregate(as.numeric(abs(dtReportData$Amount)), by = list(BalType = dtReportData$BalType), FUN = sum)
   return(dtResult)
 }
 
 
 
-########################          TO COMPLETE          ########################
+
 lmMnthlySpending <- function() {
-  lmMnthly <- lm(Amount~TransactionDate + AcctType + Category, data = dtReportData)
+  lmMnthly <- lm(Amount~TransactionDate + BalType + ExpCategory, data = dtReportData)
   names(dtReportData)
 }
 
@@ -284,10 +295,10 @@ testComponent <- function() {
   dtTemp <- data.table(j = 1)
   
   names(dtResult)
-  names(dtConslidated)
+  names(dtFormattedRawData)
   
   dtResult$Note
-  dtConslidated$Note
+  dtFormattedRawData$Note
 
   
   # for (i in ncol(dtObjs))

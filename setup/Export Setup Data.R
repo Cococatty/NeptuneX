@@ -1,10 +1,10 @@
 
-dtAcctKeywords <- data.table(Category = character(), Keyword = character())
+dtAcctKeywords <- data.table(ExpCategory = character(), Keyword = character())
 
 for (i in names(acctKeywordsList)) {
   # print(i)
   # i <- "Household"
-  dtTemp <- data.table(Category = i, Keyword = unlist(acctKeywordsList[i]) )
+  dtTemp <- data.table(ExpCategory = i, Keyword = unlist(acctKeywordsList[i]) )
   dtAcctKeywords <<- rbind(dtAcctKeywords, dtTemp)
 }
 

@@ -12,7 +12,7 @@ sqldf("attach 'dbMain.sqlite' as new")
 
 dbSendQuery(conn = dbMain,
             "CREATE TABLE AccountsLog (
-              AcctType TEXT,
+              BankAcct TEXT,
               MinDate TEXT,
               MaxDate TEXT)") # DATE
 

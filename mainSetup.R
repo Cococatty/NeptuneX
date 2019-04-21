@@ -11,7 +11,7 @@ source("mainFunctions.R")
 
 
 ##################                  STRUCTURAL SETUP                  ##################
-dtConslidated <<- data.table(
+dtFormattedRawData <<- data.table(
                       Reference = character()
                       , OtherParty = character()
                       , Amount = numeric()
@@ -86,10 +86,9 @@ basicConsolidating()
 categorizeGrouping()
 
 
-
-# View(dtConslidated)
+# View(dtFormattedRawData)
 # View(dtReportData)
-# View(dtReportData[is.na(Category),])
+# View(dtReportData[is.na(ExpCategory),])
 
 
 

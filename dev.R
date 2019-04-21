@@ -6,7 +6,7 @@
   plotYear <- "2019"
   
   ##  1. Subset data
-  dtTS <- subset(dtConslidated, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
+  dtTS <- subset(dtFormattedRawData, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
   
   ##  Calculate the sums
   dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
@@ -43,5 +43,5 @@ names(dtTS)
 rowFirst <- dtReportData[1,]
 # ts(dtTS, start = c(rowFirst$TransYear, rowFirst$TransMonth), frequency = 12 )
 # dtTS[, sum(Debit), by = .(TransYear, TransMonth)]
-# aggregate(as.numeric(abs(dtReportData$Amount)), by = list(AcctType = dtReportData$AcctType), FUN = sum)
+# aggregate(as.numeric(abs(dtReportData$Amount)), by = list(BalType = dtReportData$BalType), FUN = sum)
 return(dtResult)
