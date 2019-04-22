@@ -10,27 +10,27 @@
   
   plotDateRange <- c(as.Date("2018-09-01"), as.Date("2019-04-01") )
   plotAcct <- "Credit Card"  
-  plotData <- dtSums
+  # plotData <- dtSums
   
   StartDate <- ymd(plotDateRange[1])
   EndDate <- ymd(plotDateRange[2])
 #################            TEST DATA SETUP END              #################
     
-  print(paste0(StartDate, " - ",  EndDate, collapse = "    "))
+  # print(paste0("in function periodType is ", periodType, collapse = "--"))
   
-  ##  1. Subset data
   dtPlotData <- dtFormattedRawData[(BankAcct == plotAcct 
-                                    & TransDate >= StartDate & TransDate <=EndDate)
+                                    & TransDate %between% plotDateRange)
                                    , .(TransYear, TransMonth, Debit, BankAcct)]
   
-  
-  ##  Calculate the sums
-  dtSums <- aggregate(Debit ~ . , data = dtPlotData, FUN = sum)
-  
+  dtSums <- aggregate(Debit ~ TransYear, data = dtPlotData, FUN = sum)
   ##  ascending order
-  setorderv(dtSums, cols = c("TransYear", "TransMonth"), order=1L, na.last=FALSE)
+  setorderv(dtSums, cols = "TransYear", order=1L, na.last=FALSE)
+  dtPlot <- data.table(TransYear = dtSums$TransYear, Debit = dtSums$Debit )
 
-
+  testC <- gvisColumnChart(dtPlot)
+  class(dtPlot$TransYear)
+  plot(testC)
+  
 
 
 

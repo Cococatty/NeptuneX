@@ -161,15 +161,14 @@ deriveSelectedDateRange <- function(selectedDateRange) {
 ####################            SIMPLE PLOTS            ####################
 plotSimple <- function(plotAcct, plotDateRange, periodType) {
 
-  StartDate <- ymd(plotDateRange[1])
-  EndDate <- ymd(plotDateRange[2])
-  
+  # StartDate <- ymd(plotDateRange[1])
+  # EndDate <- ymd(plotDateRange[2])
+ 
   ##  1. Subset data
   dtPlotData <- dtFormattedRawData[(BankAcct == plotAcct 
                                     & TransDate %between% plotDateRange)
                                    , .(TransYear, TransMonth, Debit, BankAcct)]
   
-  periodType <- "Monthlyy t"
   ##  Calculate the sums by periodType
   if (grepl("Month", periodType)) {
     dtSums <- aggregate(Debit ~ TransYear + TransMonth, data = dtPlotData, FUN = sum)
@@ -177,13 +176,15 @@ plotSimple <- function(plotAcct, plotDateRange, periodType) {
     ##  ascending order
     setorderv(dtSums, cols = c("TransYear", "TransMonth"), order=1L, na.last=FALSE)
     dtSums$TransYearMonth <- paste(dtSums$TransYear, dtSums$TransMonth, sep = "-")
-    dtPlot <- data.table(TransYearMonth = dtSums$TransYearMonth, Debit = as.numeric(dtSums$Debit) )
+    dtPlot <- data.table(TransYearMonth = dtSums$TransYearMonth, Debit = dtSums$Debit )
   }
   if (grepl("Annual", periodType)) {
+    # print(paste0("in function periodType is ", periodType, collapse = "--"))
+    
     dtSums <- aggregate(Debit ~ TransYear, data = dtPlotData, FUN = sum)
     ##  ascending order
     setorderv(dtSums, cols = "TransYear", order=1L, na.last=FALSE)
-    dtPlot <- data.table(TransMonth = dtSums$TransMonth, Debit = as.numeric(dtSums$Debit) )
+    dtPlot <- data.table(TransYear = dtSums$TransYear, Debit = dtSums$Debit )
   }
 
   return(dtPlot)

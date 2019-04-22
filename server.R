@@ -27,7 +27,9 @@ shinyServer(function(input, output, session) {
   
   observeEvent(
     {input$spendAccts
-    input$spendDates}
+    input$spendDates
+    input$tabSpend
+    }
     
     , {
     for (i in seq_len(length(input$spendAccts))) {
@@ -44,50 +46,52 @@ shinyServer(function(input, output, session) {
                           , titleTextStyle="{color:'purple',fontName:'Courier',fontSize:16}"
                           , vAxes = "[{title:'Amount (in $)'}]"
                         ))
-          
           })
         })}
   })
   
-  
+  ########      TO MERGE WITH MONTHLY ONE
+  ########      
+  ########      
   #################                      SPENDING, ANNUAL                      #################
   output$spendPlotsAnnual <- renderUI({
-    plotsListTSSimple <- lapply(1:nPlots
-                                , function(i) {
-                                  plotName <- paste0("plotTS", i, collapse = "")
-                                  
-                                  output[[plotName]] <- renderPlot({
-                                    #### plotTSSimple(selectedAcct = input$inTSGroups[i], selectDateRange = input$inTSDates)
-                                    selectedAcct <- "CC"
-                                    selectDateRange <- c("2018-12-01", "2018-12-31")
-                                    
-                                    dtTargetData <-
-                                      dtReportData[BankAcct == selectedAcct &
-                                                     TransDate %between% selectDateRange, ]
-                                    dtSumByDate <-
-                                      aggregate(Debit ~ TransDate, data = dtTargetData, FUN = sum)
-                                    
-                                    plotTitle <- sprintf("Spending total by Date in %s from %s"
-                                      ,
-                                      selectedAcct,
-                                      paste0(selectDateRange, collapse = " to ")
-                                    )
-                                    plot(
-                                      x = dtSumByDate$TransDate,
-                                      y = dtSumByDate$Debit,
-                                      main = plotTitle,
-                                      type = "b"
-                                      ,
-                                      xlab = "Transaction Date",
-                                      ylab = "Amount ($)"
-                                    )
-                                    plotOutput(plotName)
-                                  })
-                                }) #### END OF lapply
-    do.call(tagList, plotsListTSSimple)
+    plotsSimpleYrOutputList <- lapply(as.list(seq_len(length(input$spendAccts))), function(i) {
+      plotYrID <- paste0("plotSimpleAnnual", i)
+      htmlOutput(plotYrID)
+    })
+    tagList(plotsSimpleYrOutputList)
   })
+  
+  
+  observeEvent(
+    {input$spendAccts
+      input$spendDates
+      input$tabSpend
+      }
+    
+    , {
+      for (i in seq_len(length(input$spendAccts))) {
+        local({
+          plotName <- paste0("plotSimpleAnnual", i)
+          currentAcct <- input$spendAccts[i]
+          plotYrData <- plotSimple(currentAcct, input$spendDates, input$tabSpend)
+          plotTitle <- paste0("The spending trend of ", currentAcct)
+
+          output[[plotName]] <- renderGvis({
+            gvisColumnChart(plotYrData
+                          , options = list(
+                            title = plotTitle
+                            , titleTextStyle="{color:'purple',fontName:'Courier',fontSize:16}"
+                            , vAxes = "[{title:'Amount (in $)'}]"
+                          ))
+          })
+        })}
+    })
+  
   
   
   #################                      SPENDING, D&C TABLE                      #################
   output$spendTblDC <- renderDataTable(calcDebVSCred())
 })
+
+# print("I'm HERE! ")

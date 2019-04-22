@@ -19,10 +19,10 @@ dtFormattedRawData <<- data.table(
                       , Note = character()
                       # , ID = integer()
                       , TransDate = ymd()
-                      , TransWDay = integer()
-                      , TransDay = integer()
-                      , TransMonth = integer()
-                      , TransYear = integer()
+                      , TransWDay = character()
+                      , TransDay = character()
+                      , TransMonth = character()
+                      , TransYear = character()
 )
 
 

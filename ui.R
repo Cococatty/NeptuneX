@@ -6,10 +6,10 @@ source("mainFunctions.R")
 shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
              theme = shinythemes::shinytheme("superhero"),
   
-  # Spending
-  tabPanel( "Spending" # menuSpending, # "Plot tab contents..."
+  # SPENDING TAB
+  tabPanel( "Spending Info" # menuSpending, # "Plot tab contents..."
           
-            ########        SIDE BAR, SPENDING          ########
+          ########        SIDE BAR, SPENDING          ########
           , sidebarPanel(
               checkboxGroupInput("spendAccts", "Select accounts to analysis"
                                   , choices = c(dtAcctDates$BankAcct)
@@ -40,19 +40,19 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
           , mainPanel(
               tabsetPanel(id = "tabSpend",
                 tabPanel(titleSpendMonth
-                         , mainPanel(
-                           uiOutput("spendPlotsMnth"))
+                         , mainPanel(uiOutput("spendPlotsMnth"))
                 )
                 , tabPanel(titleSpendYear
-                            , mainPanel(uiOutput("spendPlotsAnnual")
-                          )
-                              )
+                            , mainPanel(uiOutput("spendPlotsAnnual"))
+                )
                 , tabPanel(titleSpendTable #, width = 12
                             , mainPanel(dataTableOutput("spendTblDC"))
-                            )
+                )
               )
             )
           )
+  
+  # BUDGET & GOAL TAB
   , tabPanel( "Budget & Goal"
               , sidebarPanel(
                 radioButtons("bngType", label = "The KEY"
@@ -85,6 +85,8 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
              
               , mainPanel("Budget")
   )
+  
+  # INCOME TAB
   , tabPanel( "Income"
               , sidebarPanel(
                 radioButtons("inQsIncome", label = "Ask a question"
