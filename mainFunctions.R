@@ -52,7 +52,7 @@ basicConsolidating <- function() {
                      , TransMonth = format.Date(TransDateCol, "%m")
                      , TransYear = year(TransDateCol)
                      , BankAcct = unlist(lapply(acctRow$AcctNum, function(x) switch(str_sub(x, -3, -1)
-                                                                                    , "144" = "CC"
+                                                                                    , "144" = "Credit Card"
                                                                                     , "000"  = "Daily"
                                                                                     , "017"  = "Saver"
                                                                                     , "025"  = "Home Bills"

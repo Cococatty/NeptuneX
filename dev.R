@@ -1,4 +1,4 @@
-
+#################            TEST DATA SETUP START              #################
 # plotSimple <- function(plotAcct, plotYear) {
   plotAcct <- c("CC", "Daily")
   plotYear <- "2019"
@@ -14,7 +14,8 @@
   
   StartDate <- ymd(plotDateRange[1])
   EndDate <- ymd(plotDateRange[2])
-  
+#################            TEST DATA SETUP END              #################
+    
   print(paste0(StartDate, " - ",  EndDate, collapse = "    "))
   
   ##  1. Subset data
@@ -28,34 +29,6 @@
   
   ##  ascending order
   setorderv(dtSums, cols = c("TransYear", "TransMonth"), order=1L, na.last=FALSE)
-  
-  dtSums$TransYearMonth <- paste(dtSums$TransYear, dtSums$TransMonth, sep = "-")
-  
-  plot(x = dtSums$TransYearMonth, y = dtSums$Debit, type = "l"
-       , main = plotTitle, xlab = "Transaction Time", ylab = "Amount (in $)")
-  
-  table(dtSums$Debit, dtSums$TransYearMonth)
-  
-  table(dtSums$Debit)
-  
-  dtBar <- dtSums[, c(TransYearMonth, Debit)]
-  barplot(dtBar    )
-  
-  
-  
-  
-  ##  1. Subset data
-  dtTS <- subset(dtFormattedRawData, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )
-  
-  ##  Calculate the sums
-  dtSums <- aggregate(Debit ~ . , data = dtTS, FUN = sum)
-  
-  plotMain <- paste0("The spending trend of ", plotAcct, " in ", plotYear)
-  basicPlot <- plot(x = dtSums$TransMonth, y = dtSums$Debit, type = "l"
-                    , main = plotMain, xlab = "Transaction Month", ylab = "Amount (in $)")
-
-
-
 
 
 
