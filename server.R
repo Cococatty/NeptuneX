@@ -31,7 +31,7 @@ shinyServer(function(input, output, session) {
     input$tabSpend
     }
     
-    , {
+    , { if (input$tabSpend == titleSpendMonth) {
     for (i in seq_len(length(input$spendAccts))) {
       local({
         plotName <- paste0("plotSimple", i)
@@ -48,7 +48,7 @@ shinyServer(function(input, output, session) {
                         ))
           })
         })}
-  })
+  }})
   
   ########      TO MERGE WITH MONTHLY ONE
   ########      
@@ -69,7 +69,7 @@ shinyServer(function(input, output, session) {
       input$tabSpend
       }
     
-    , {
+    , { if (input$tabSpend == titleSpendYear) {
       for (i in seq_len(length(input$spendAccts))) {
         local({
           plotName <- paste0("plotSimpleAnnual", i)
@@ -86,12 +86,37 @@ shinyServer(function(input, output, session) {
                           ))
           })
         })}
-    })
+    }})
   
   
   
   #################                      SPENDING, D&C TABLE                      #################
-  output$spendTblDC <- renderDataTable(calcDebVSCred())
+  # output$spendTblDC <- renderDataTable(calcDebCredTotals())
+  observeEvent(
+    {input$spendAccts
+      input$spendDates
+      input$tabSpend
+    }
+    
+    , { if (input$tabSpend == titleSpendTable) {
+     output$spendTblDC <- renderGvis( { 
+              dtResult <- getDebVSCredTbl(input$spendAccts, input$spendDates)
+              gvisTable(dtResult
+                         , formats = list(Amount = "$#.##")
+                         , options = list(page = "enable", height = 750, width = 850
+                                          , cssClassNames = "{headerRow: 'myTableHeadrow', tableRow: 'myTablerow'}", alternatingRowStyle = FALSE)
+              )
+     })
+     }}
+    )
+
+  
+  reactiveDCTotals <- reactive(calcDebCredTotals(input$spendAccts, input$spendDates))
+  output$spendDCTotals <- renderDataTable({reactiveDCTotals()})
+    
+    
+
+######      SIGNATURE END  
 })
 
 # print("I'm HERE! ")

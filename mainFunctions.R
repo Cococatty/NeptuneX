@@ -159,18 +159,18 @@ deriveSelectedDateRange <- function(selectedDateRange) {
 
 
 ####################            SIMPLE PLOTS            ####################
-plotSimple <- function(plotAcct, plotDateRange, periodType) {
+plotSimple <- function(selectedAccts, selectedDateRange, selectedTab) {
 
-  # StartDate <- ymd(plotDateRange[1])
-  # EndDate <- ymd(plotDateRange[2])
+  # StartDate <- ymd(selectedDateRange[1])
+  # EndDate <- ymd(selectedDateRange[2])
  
   ##  1. Subset data
-  dtPlotData <- dtFormattedRawData[(BankAcct == plotAcct 
-                                    & TransDate %between% plotDateRange)
+  dtPlotData <- dtFormattedRawData[(BankAcct == selectedAccts 
+                                    & TransDate %between% selectedDateRange)
                                    , .(TransYear, TransMonth, Debit, BankAcct)]
   
-  ##  Calculate the sums by periodType
-  if (grepl("Month", periodType)) {
+  ##  Calculate the sums by selectedTab
+  if (grepl("Month", selectedTab)) {
     dtSums <- aggregate(Debit ~ TransYear + TransMonth, data = dtPlotData, FUN = sum)
     
     ##  ascending order
@@ -178,8 +178,8 @@ plotSimple <- function(plotAcct, plotDateRange, periodType) {
     dtSums$TransYearMonth <- paste(dtSums$TransYear, dtSums$TransMonth, sep = "-")
     dtPlot <- data.table(TransYearMonth = dtSums$TransYearMonth, Debit = dtSums$Debit )
   }
-  if (grepl("Annual", periodType)) {
-    # print(paste0("in function periodType is ", periodType, collapse = "--"))
+  if (grepl("Annual", selectedTab)) {
+    # print(paste0("in function selectedTab is ", selectedTab, collapse = "--"))
     
     dtSums <- aggregate(Debit ~ TransYear, data = dtPlotData, FUN = sum)
     ##  ascending order
@@ -194,27 +194,36 @@ plotSimple <- function(plotAcct, plotDateRange, periodType) {
 
 
 ####################            ANALYSIS DATA            ####################
-calcDebVSCred <- function() {
-  dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$BalType, FUN=sum)
-  dtResult <- data.table(Credit = dtCalc["Credit"]
-                         , Debit = dtCalc["Debit"])
+getDebVSCredTbl <- function(selectedAccts, selectedDateRange) {
+  # selectedAccts <- c("Credit Card", "Daily")
+  # selectedDateRange <- c(as.Date("2018-09-01"), as.Date("2019-04-01"))
+
+  dtResult <- dtReportData[(BankAcct == selectedAccts 
+                            & TransDate %between% selectedDateRange)
+                           , .(TransDate, BankAcct, BalType, Amount, ExpCategory, Note)]
   
-  # get(dtCalc[i])
-  # dtCalc[get(as.character(i))]
-  # dtResult <- setNames(data.table(
-  #   matrix(nrow = 0, ncol = length(dtCalc))), c(names(dtCalc))
-  #   )
-  # for (i in names(dtCalc)) {
-  #   dtResult[, as.character(i) := dtCalc[names(dtCalc)]]
-  # }
-  
-  # dtReportData[, sum(Amount), by = .(BalType)]
-  # aggregate(as.numeric(dtReportData$Amount), by = list(BalType = dtReportData$BalType), FUN = sum)
+  setorderv(dtResult, cols = "TransDate", order=-1L, na.last=FALSE)
+
   return(dtResult)
 }
 
 
+calcDebCredTotals <- function(selectedAccts, selectedDateRange) {
+  dtReport <- dtReportData[(BankAcct == selectedAccts 
+                            & TransDate %between% selectedDateRange)
+                           , .(BankAcct, BalType, Amount)]
+  
+  dtCalc <- tapply(abs(as.numeric(dtReportData$Amount)), dtReportData$BalType, FUN=sum)
+  
+  dtSums <- aggregate( abs(Amount) ~ BalType + BankAcct, data = dtReport, FUN = sum )
+  
+  dtResult <- data.table('Bank Account' = dtSums$BankAcct, 'Balance Type' = dtSums$BalType, 'Amount' = dtSums$`abs(Amount)`)
 
+  # dtResult <- data.table(Credit = dtCalc["Credit"]
+  #                        , Debit = dtCalc["Debit"])
+  
+  return(dtResult)
+}
 
 
 ########################          TO COMPLETE          ########################

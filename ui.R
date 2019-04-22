@@ -6,7 +6,7 @@ source("mainFunctions.R")
 shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
              theme = shinythemes::shinytheme("superhero"),
   
-  # SPENDING TAB
+  ######## SPENDING TAB
   tabPanel( "Spending Info" # menuSpending, # "Plot tab contents..."
           
           ########        SIDE BAR, SPENDING          ########
@@ -46,13 +46,17 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                             , mainPanel(uiOutput("spendPlotsAnnual"))
                 )
                 , tabPanel(titleSpendTable #, width = 12
-                            , mainPanel(dataTableOutput("spendTblDC"))
+                            , mainPanel(
+                              dataTableOutput("spendDCTotals")
+                              , htmlOutput("spendTblDC")
+                                        ,tags$head(tags$style(type="text/css", ".myTableHeadrow {background-color:black;} .myTablerow {background-color:black;}"))
+                                        )
                 )
               )
             )
           )
-  
-  # BUDGET & GOAL TAB
+
+  ######## BUDGET & GOAL TAB
   , tabPanel( "Budget & Goal"
               , sidebarPanel(
                 radioButtons("bngType", label = "The KEY"
