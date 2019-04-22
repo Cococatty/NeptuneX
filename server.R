@@ -25,14 +25,14 @@ shinyServer(function(input, output, session) {
   
   
   output$spendPlotsMnth <- renderUI({
-    lapply(as.list(seq_len(length(
+    plotsOutputList <- lapply(as.list(seq_len(length(
       input$spendAccts
     ))), function(i) {
       plotID <- paste0("plotSimple", i)
       # print( paste0("plotID is: ", plotID, collapse = "----") )
-      plotOutput(plotID)
+      htmlOutput(plotID)
     })
-    # tagList(plotsOutputList)
+    tagList(plotsOutputList)
   })
   
 
@@ -49,9 +49,17 @@ shinyServer(function(input, output, session) {
         plotData <- plotSimple(currentAcct, input$spendDates)
         plotTitle <- paste0("The spending trend of ", currentAcct)
         
-        output[[plotName]] <- renderPlot({
-          plot(x = plotData$TransMonth, y = plotData$Debit, type = "l"
-                                  , main = plotTitle, xlab = "Transaction Month", ylab = "Amount (in $)")
+        output[[plotName]] <- renderGvis({
+          # plot(x = plotData$TransYearMonth, y = plotData$Debit, type = "l"
+          #                         , main = plotTitle, xlab = "Transaction Time", ylab = "Amount (in $)")
+          print(plotData)
+          gvisLineChart(plotData
+                        , options = list(
+                          title = plotTitle
+                          , titleTextStyle="{color:'purple',fontName:'Courier',fontSize:16}"
+                          , vAxes = "[{title:'Amount (in $)'}]"
+                        ))
+          
           })
         })}
   })

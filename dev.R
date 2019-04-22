@@ -6,11 +6,43 @@
   plotDateRange <- testVar
   
   selectedDateRange <- c(as.Date("2018-09-01"), as.Date("2019-04-01"))
-  plotDateRange <- c(as.Date("2018-09-01"), as.Date("2019-04-01") )
-  plotAcct <- "CC"  
   currentAcct <- "Daily"  
   
- 
+  plotDateRange <- c(as.Date("2018-09-01"), as.Date("2019-04-01") )
+  plotAcct <- "CC"  
+  plotData <- dtSums
+  
+  StartDate <- ymd(plotDateRange[1])
+  EndDate <- ymd(plotDateRange[2])
+  
+  print(paste0(StartDate, " - ",  EndDate, collapse = "    "))
+  
+  ##  1. Subset data
+  dtPlotData <- dtFormattedRawData[(BankAcct == plotAcct 
+                                    & TransDate >= StartDate & TransDate <=EndDate)
+                                   , .(TransYear, TransMonth, Debit, BankAcct)]
+  
+  
+  ##  Calculate the sums
+  dtSums <- aggregate(Debit ~ . , data = dtPlotData, FUN = sum)
+  
+  ##  ascending order
+  setorderv(dtSums, cols = c("TransYear", "TransMonth"), order=1L, na.last=FALSE)
+  
+  dtSums$TransYearMonth <- paste(dtSums$TransYear, dtSums$TransMonth, sep = "-")
+  
+  plot(x = dtSums$TransYearMonth, y = dtSums$Debit, type = "l"
+       , main = plotTitle, xlab = "Transaction Time", ylab = "Amount (in $)")
+  
+  table(dtSums$Debit, dtSums$TransYearMonth)
+  
+  table(dtSums$Debit)
+  
+  dtBar <- dtSums[, c(TransYearMonth, Debit)]
+  barplot(dtBar    )
+  
+  
+  
   
   ##  1. Subset data
   dtTS <- subset(dtFormattedRawData, BankAcct == plotAcct, select = c(TransYear, TransMonth, Debit) )

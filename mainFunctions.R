@@ -88,6 +88,7 @@ basicConsolidating <- function() {
     
     ##  Merge into Final Result
     dtFormattedRawData <<- rbind(dtFormattedRawData, dtResult)
+    dtFormattedRawData <<- dtFormattedRawData[order(TransDate, BankAcct)]
     # , fill = TRUE
   }
   updateAcctProcessRange(dtFormattedRawData)
@@ -164,16 +165,22 @@ plotSimple <- function(plotAcct, plotDateRange) {
   EndDate <- ymd(plotDateRange[2])
   
   ##  1. Subset data
-  dtPlotData <- subset(dtFormattedRawData
-                       , BankAcct == plotAcct 
-                       & TransDate >= StartDate & TransDate <=EndDate
-                       , select = c(TransYear, TransMonth, Debit, BankAcct) )
+  dtPlotData <- dtFormattedRawData[(BankAcct == plotAcct 
+                                    & TransDate >= StartDate & TransDate <= EndDate)
+                                   , .(TransYear, TransMonth, Debit, BankAcct)]
   
   
   ##  Calculate the sums
   dtSums <- aggregate(Debit ~ . , data = dtPlotData, FUN = sum)
-
-  return(dtSums)
+  
+  ##  ascending order
+  setorderv(dtSums, cols = c("TransYear", "TransMonth"), order=1L, na.last=FALSE)
+  
+  dtSums$TransYearMonth <- paste(dtSums$TransYear, dtSums$TransMonth, sep = "-")
+  
+  dtPlot <- data.table(TransYearMonth = dtSums$TransYearMonth, Debit = as.numeric(dtSums$Debit) )
+  
+  return(dtPlot)
 }
 
 
