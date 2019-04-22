@@ -1,6 +1,8 @@
 source("mainSetup.R")
 source("mainFunctions.R")
 
+
+
 shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
              theme = shinythemes::shinytheme("superhero"),
   
@@ -9,12 +11,9 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
           
             ########        SIDE BAR, SPENDING          ########
           , sidebarPanel(
-              # sliderInput("spendNumGrp", "Number of Accounts to"
-              #             , min = 1, max = 5, value = 3
-              # )
               checkboxGroupInput("spendAccts", "Select accounts to analysis"
                                   , choices = c(dtAcctDates$BankAcct)
-                                  , selected = "CC")
+                                  , selected = dtAcctDates$BankAcct[1])
               , dateRangeInput("spendDates", "Transaction Date Range"
                                , start = dateRangeStart, end = dateRangeEnd
                                , min = dateRangeMin
@@ -39,17 +38,16 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
           
           ########        MAIN PANEL, SPENDING          ########
           , mainPanel(
-              tabsetPanel(
-                tabPanel("Monthly Spending"
-                         # , mainPanel(plotOutput("spendPlotMnth"))
+              tabsetPanel(id = "tabSpend",
+                tabPanel(titleSpendMonth
                          , mainPanel(
                            uiOutput("spendPlotsMnth"))
                 )
-                , tabPanel("Annual Spending"
+                , tabPanel(titleSpendYear
                             , mainPanel(uiOutput("spendPlotsAnnual")
                           )
                               )
-                , tabPanel("Debit VS Credit" #, width = 12
+                , tabPanel(titleSpendTable #, width = 12
                             , mainPanel(dataTableOutput("spendTblDC"))
                             )
               )

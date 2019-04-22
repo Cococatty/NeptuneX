@@ -5,7 +5,8 @@ source("mainFunctions.R")
 shinyServer(function(input, output, session) {
   menuSpending <<- "Spending"
   
-  output$testText <- renderText("testText1")
+  output$testText <- renderText(input$tabSpend)
+  # input$tabSpend
   
   
   # observe({
@@ -33,7 +34,7 @@ shinyServer(function(input, output, session) {
       local({
         plotName <- paste0("plotSimple", i)
         currentAcct <- input$spendAccts[i]
-        plotData <- plotSimple(currentAcct, input$spendDates)
+        plotData <- plotSimple(currentAcct, input$spendDates, input$tabSpend)
         plotTitle <- paste0("The spending trend of ", currentAcct)
         
         output[[plotName]] <- renderGvis({

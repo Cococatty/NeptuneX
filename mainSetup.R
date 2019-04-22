@@ -85,6 +85,14 @@ dateRangeStart <<- dateRangeEnd %m-% months(6)
 dateRangeMin <<- min(dtAcctDates$MinDate)
 dateRangeMax <<- max(dtAcctDates$MaxDate)
 
+##########    TEXT SETUP
+titleSpendMonth <<- "Monthly Spending"
+titleSpendYear <<- "Annual Spending"
+titleSpendTable <<- "Debit & Credit Table"
+
+
+
+
 
 # View(dtFormattedRawData)
 # View(dtReportData)

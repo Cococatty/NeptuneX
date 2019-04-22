@@ -1,6 +1,6 @@
 #################            TEST DATA SETUP START              #################
 # plotSimple <- function(plotAcct, plotYear) {
-  plotAcct <- c("CC", "Daily")
+  plotAcct <- c("Credit Card", "Daily")
   plotYear <- "2019"
   tsGroup <- "BankAcct"
   plotDateRange <- testVar
@@ -9,7 +9,7 @@
   currentAcct <- "Daily"  
   
   plotDateRange <- c(as.Date("2018-09-01"), as.Date("2019-04-01") )
-  plotAcct <- "CC"  
+  plotAcct <- "Credit Card"  
   plotData <- dtSums
   
   StartDate <- ymd(plotDateRange[1])
