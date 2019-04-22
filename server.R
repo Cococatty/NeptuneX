@@ -4,10 +4,7 @@ source("mainFunctions.R")
 
 shinyServer(function(input, output, session) {
   menuSpending <<- "Spending"
-  # output$textTxt <- renderText(input$inQsIncome)
   
-  ## updateTS
-  nPlots <<- 1
   output$testText <- renderText("testText1")
   
   
@@ -15,27 +12,17 @@ shinyServer(function(input, output, session) {
   #   print(paste0("test input is ", input$spendDates))
   # })
   
-  # observe({
-  #   print(paste0("spendAccts is ", input$spendAccts))
-  # })
-  #
-  
+ 
   #################                      SPENDING, MNTH                      #################
-  # output$spendPlotsMnth <- renderPlot(plotSimple(input$spendAccts, input$spendDates))
-  
   
   output$spendPlotsMnth <- renderUI({
-    plotsOutputList <- lapply(as.list(seq_len(length(
-      input$spendAccts
-    ))), function(i) {
+    plotsOutputList <- lapply(as.list(seq_len(length(input$spendAccts))), function(i) {
       plotID <- paste0("plotSimple", i)
-      # print( paste0("plotID is: ", plotID, collapse = "----") )
       htmlOutput(plotID)
     })
     tagList(plotsOutputList)
   })
   
-
   
   observeEvent(
     {input$spendAccts
@@ -50,9 +37,6 @@ shinyServer(function(input, output, session) {
         plotTitle <- paste0("The spending trend of ", currentAcct)
         
         output[[plotName]] <- renderGvis({
-          # plot(x = plotData$TransYearMonth, y = plotData$Debit, type = "l"
-          #                         , main = plotTitle, xlab = "Transaction Time", ylab = "Amount (in $)")
-          print(plotData)
           gvisLineChart(plotData
                         , options = list(
                           title = plotTitle
@@ -70,8 +54,6 @@ shinyServer(function(input, output, session) {
     plotsListTSSimple <- lapply(1:nPlots
                                 , function(i) {
                                   plotName <- paste0("plotTS", i, collapse = "")
-                                  print(plotName)
-                                  ### plotName <- paste0("plotTS", i, collapse = "")
                                   
                                   output[[plotName]] <- renderPlot({
                                     #### plotTSSimple(selectedAcct = input$inTSGroups[i], selectDateRange = input$inTSDates)
@@ -84,8 +66,7 @@ shinyServer(function(input, output, session) {
                                     dtSumByDate <-
                                       aggregate(Debit ~ TransDate, data = dtTargetData, FUN = sum)
                                     
-                                    plotTitle <- sprintf(
-                                      "Spending total by Date in %s from %s"
+                                    plotTitle <- sprintf("Spending total by Date in %s from %s"
                                       ,
                                       selectedAcct,
                                       paste0(selectDateRange, collapse = " to ")

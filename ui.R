@@ -43,7 +43,6 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                 tabPanel("Monthly Spending"
                          # , mainPanel(plotOutput("spendPlotMnth"))
                          , mainPanel(
-                           textOutput("testText"),
                            uiOutput("spendPlotsMnth"))
                 )
                 , tabPanel("Annual Spending"
@@ -114,3 +113,4 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
   )))
                   # theme = "mytheme.css",
   
+# textOutput("testText"),
