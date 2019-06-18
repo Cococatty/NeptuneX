@@ -96,6 +96,34 @@ basicConsolidating <- function() {
 }
 
 
+buildExpectedIncome <- function(selectedDateRange) {
+  
+  drStart <- selectedDateRange[1]
+  drEnd <- selectedDateRange[2]
+  
+
+  dtExpectedIncomeSeries <<- data.table(SeqID = integer(), AcctName = character()
+                                       , ExpDate = ymd(), Amount = numeric()
+  )
+  
+  for (i in 1:nrow(dtExpectedIncome)) {
+    row <- dtExpectedIncome[i]
+    currentDate <- ymd(drStart)
+    seqID <- 1
+    
+    while (currentDate <= drEnd) {
+      dtTemp <- data.table(SeqID = seqID, AcctName = row$Name, ExpDate = currentDate, Amount = row$Amount)
+      lisrResult = list(dtExpectedIncomeSeries, dtTemp)
+      dtExpectedIncomeSeries <<- rbindlist(lisrResult, use.names = TRUE)
+      if (row$FreqInt == 1) currentDate <- currentDate + months(1)
+      else currentDate <- currentDate + days(7 * row$FreqInt)
+      seqID <- seqID + 1 
+    }
+  }
+  
+}
+
+
 ##########            ACCOUNTS DATES TABLE            ##########
 ##  PURPOSE:
 ##  1.  Hold records of date ranges by accounts, so that the relevant info can be used in display and potentially, 
@@ -160,7 +188,7 @@ deriveSelectedDateRange <- function(selectedDateRange) {
 
 ####################            SIMPLE PLOTS            ####################
 plotSimple <- function(selectedAccts, selectedDateRange, selectedTab) {
-
+  # print(selectedDateRange, str(selectedDateRange))
   # StartDate <- ymd(selectedDateRange[1])
   # EndDate <- ymd(selectedDateRange[2])
  

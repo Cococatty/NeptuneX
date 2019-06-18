@@ -60,6 +60,14 @@ return(dtResult)
 
 
 
+#########################             merge dt
+
+# bind correctly by names
+DT1 = data.table(A=1:3,B=letters[1:3])
+DT2 = data.table(B=letters[4:5],A=4:5)
+l = list(DT1,DT2)
+rbindlist(l, use.names=TRUE)
+
 
 
 #########################                     DEV DEBUG CODE

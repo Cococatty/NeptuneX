@@ -71,6 +71,13 @@ acctKeywordsList <<- list(
                             )
 
 
+dtExpectedIncome <<- data.table( Name = c("Salary", "Rent")
+                                , Amount = c(2065.10, 120)
+                                , Frequency = c("Fortnightly", "Weekly")
+                                , FreqInt = c(2, 4)
+                                , StartDate = c(ymd("2019-06-11"), ymd("2019-06-11"))
+                                )
+
 
 basicConsolidating()
 categorizeGrouping()

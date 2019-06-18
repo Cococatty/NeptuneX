@@ -103,8 +103,8 @@ shinyServer(function(input, output, session) {
               dtResult <- getDebVSCredTbl(input$spendAccts, input$spendDates)
               gvisTable(dtResult
                          , formats = list(Amount = "$#.##")
-                         , options = list(page = "enable", height = 750, width = 850
-                                          , cssClassNames = "{headerRow: 'myTableHeadrow', tableRow: 'myTablerow'}", alternatingRowStyle = FALSE)
+                         , options = list(page = "enable"# , height = 750, width = 850
+                         , cssClassNames = "{headerRow: 'myTableHeadrow', tableRow: 'myTablerow'}", alternatingRowStyle = FALSE)
               )
      })
      }}
@@ -116,6 +116,12 @@ shinyServer(function(input, output, session) {
     
     
 
+  #################                      INCOME, Expect Income TABLE                      #################
+  output$incomeExpectedTable <- renderGvis({
+    buildExpectedIncome(input$inIncomeDates)
+    gvisTable(dtExpectedIncomeSeries)
+  })
+  
 ######      SIGNATURE END  
 })
 

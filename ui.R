@@ -49,7 +49,10 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                             , mainPanel(
                               dataTableOutput("spendDCTotals")
                               , htmlOutput("spendTblDC")
-                                        ,tags$head(tags$style(type="text/css", ".myTableHeadrow {background-color:black;} .myTablerow {background-color:black;}"))
+                                        , tags$head(tags$style(
+                                          type="text/css", ".myTableHeadrow {background-color:black;}
+                                          .myTablerow {background-color:black;}")
+                                                   )
                                         )
                 )
               )
@@ -107,8 +110,13 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                                  , max = dateRangeMax
                 )
               )
-              , mainPanel( "Income" )
-              # textOutput("testTxt") 
+              , mainPanel( "Income"
+                           # dataTableOutput("spendDCTotals")
+                           , htmlOutput("incomeExpectedTable")
+                           # , tags$head(tags$style(
+                           #   type="text/css", ".myTableHeadrow {background-color:black;}
+                           #                .myTablerow {background-color:black;}")
+                           )
   )
   , navbarMenu("More",
             tabPanel("Summary", "Summary tab contents..."),
