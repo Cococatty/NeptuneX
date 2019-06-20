@@ -99,28 +99,39 @@ shinyServer(function(input, output, session) {
     }
     
     , { if (input$tabSpend == titleSpendTable) {
-     output$spendTblDC <- renderGvis( { 
-              dtResult <- getDebVSCredTbl(input$spendAccts, input$spendDates)
-              gvisTable(dtResult
-                         , formats = list(Amount = "$#.##")
-                         , options = list(page = "enable"# , height = 750, width = 850
-                         , cssClassNames = "{headerRow: 'myTableHeadrow', tableRow: 'myTablerow'}", alternatingRowStyle = FALSE)
-              )
-     })
-     }}
+     # output$spendTblDC <- renderGvis( { 
+     #          dtResult <- getDebVSCredTbl(input$spendAccts, input$spendDates)
+     #          gvisTable(dtResult
+     #                     , formats = list(Amount = "$#.##")
+     #                     , options = list(page = "enable"# , height = 750, width = 850
+     #                     , cssClassNames = "{headerRow: 'myTableHeadrow', tableRow: 'myTablerow'}", alternatingRowStyle = FALSE)
+     #          )
+     # })
+      output$spendTblDC <- renderDataTable( { 
+        dtResult <- getDebVSCredTbl(input$spendAccts, input$spendDates)
+      })
+      }}
     )
 
   
   reactiveDCTotals <- reactive(calcDebCredTotals(input$spendAccts, input$spendDates))
   output$spendDCTotals <- renderDataTable({reactiveDCTotals()})
-    
-    
+
 
   #################                      INCOME, Expect Income TABLE                      #################
-  output$incomeExpectedTable <- renderGvis({
-    buildExpectedIncome(input$inIncomeDates)
-    gvisTable(dtExpectedIncomeSeries)
+  # output$incomeExpectedTable <- renderGvis({
+  #   buildExpectedIncome(input$inIncomeDates)
+  #   gvisTable(dtExpectedIncomeSeries)
+  # })
+  
+  output$incomeExpectedTable <- renderDataTable({
+    dtExpectedIncomeSeries <- buildExpectedIncome(input$inIncomeDates)
   })
+  
+  
+  
+  #################                      DEVELOPMENT, TASKS SCHEDULE TABLE                      #################
+  output$devSchedule <- renderDataTable(dtDevTasks)
   
 ######      SIGNATURE END  
 })

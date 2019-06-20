@@ -48,11 +48,12 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                 , tabPanel(titleSpendTable #, width = 12
                             , mainPanel(
                               dataTableOutput("spendDCTotals")
-                              , htmlOutput("spendTblDC")
-                                        , tags$head(tags$style(
-                                          type="text/css", ".myTableHeadrow {background-color:black;}
-                                          .myTablerow {background-color:black;}")
-                                                   )
+                              , dataTableOutput("spendTblDC")
+                              # , htmlOutput("spendTblDC")
+                              #           , tags$head(tags$style(
+                              #             type="text/css", ".myTableHeadrow {background-color:black;}
+                              #             .myTablerow {background-color:black;}")
+                              #                      )
                                         )
                 )
               )
@@ -121,6 +122,11 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
   , navbarMenu("More",
             tabPanel("Summary", "Summary tab contents..."),
             tabPanel("Setup", "e.g Date format")
+  )
+  , navbarMenu("Development",
+               tabPanel("Dev Schedule", dataTableOutput("devSchedule"))
+               , tabPanel("Data Dictionary", "TBC")
+               , tabPanel("Algorithm Showcase", "TBC")
   )
   )))
                   # theme = "mytheme.css",

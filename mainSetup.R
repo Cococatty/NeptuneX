@@ -78,6 +78,17 @@ dtExpectedIncome <<- data.table( Name = c("Salary", "Rent")
                                 , StartDate = c(ymd("2019-06-11"), ymd("2019-06-11"))
                                 )
 
+## list attributes, date = EPIC, Task, Description, Finished By
+# devTasksList <<- list( TaskCalendar = c("Documentation by Shiny", "Create a task calendar", "20190620", "20190623")
+#                      , TSModel = c("Time Series", "Create a time series model", "20190624", "20190626"))
+# 
+# dtDevTasks <<- as.data.table(devTasksList)
+# # row.names(dtDevTasks) <<- c("Task", "Description", "StartDate", "EndDate")
+
+dtDevTasks <<- data.table(EPIC = c("Documentation by Shiny", "Time Series")
+                          , Task = c("Create a task calendar", "Create a time series model")
+                          , StartDate = c("20190620", "20190624")
+                          , EndDate = c("20190623", "20190626") )
 
 basicConsolidating()
 categorizeGrouping()

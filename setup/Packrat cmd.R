@@ -27,6 +27,7 @@ install.packages(c(
   ,"ini"
   ,"pkgbuild"
   ,"pkgload"
+  , "BioCircos"
 ), dependencies = TRUE)
 
 ############        LIBRARIES SECTION ENDS        ############

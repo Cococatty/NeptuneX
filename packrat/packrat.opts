@@ -4,7 +4,7 @@ print.banner.on.startup: auto
 vcs.ignore.lib: TRUE
 vcs.ignore.src: TRUE
 external.packages: 
-local.repos: /Projects/Neptune/downloaded_packages
+local.repos: C:/Projects/NeptuneX/packages
 load.external.packages.on.startup: TRUE
 ignored.packages: 
 ignored.directories:
