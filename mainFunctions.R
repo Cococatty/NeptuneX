@@ -96,31 +96,45 @@ basicConsolidating <- function() {
 }
 
 
+##########            BUILD EXPECTED SERIES OF INCOME DATA            ##########
+##  PURPOSE:
+##  1. 
+##
+
 buildExpectedIncome <- function(selectedDateRange) {
   
-  drStart <- selectedDateRange[1]
-  drEnd <- selectedDateRange[2]
+  drStart <- ymd(selectedDateRange[1])
+  drEnd <- ymd(selectedDateRange[2])
   
-
-  dtExpectedIncomeSeries <<- data.table(SeqID = integer(), AcctName = character()
-                                       , ExpDate = ymd(), Amount = numeric()
+  dtExpectedIncomeSeries <- data.table(SeqID = integer(), AcctName = character()
+                                        , Frequency = character(), ExpDate = ymd(), Amount = numeric()
   )
   
   for (i in 1:nrow(dtExpectedIncome)) {
     row <- dtExpectedIncome[i]
-    currentDate <- ymd(drStart)
+    currentDate <- drStart
+    setEndDate <- drEnd
+    
+    if (currentDate < row$StartDate) currentDate <- ymd(row$StartDate)
+    if (setEndDate > row$EndDate) setEndDate <- ymd(row$EndDate)
+    
     seqID <- 1
     
-    while (currentDate <= drEnd) {
-      dtTemp <- data.table(SeqID = seqID, AcctName = row$Name, ExpDate = currentDate, Amount = row$Amount)
+    while (currentDate <= setEndDate) {
+      print("I'm here!")
+      dtTemp <- data.table(SeqID = seqID, AcctName = row$Name, Frequency = row$Frequency
+                           , ExpDate = currentDate, Amount = row$Amount)
       lisrResult = list(dtExpectedIncomeSeries, dtTemp)
-      dtExpectedIncomeSeries <<- rbindlist(lisrResult, use.names = TRUE)
-      if (row$FreqInt == 1) currentDate <- currentDate + months(1)
-      else currentDate <- currentDate + days(7 * row$FreqInt)
+      dtExpectedIncomeSeries <- rbindlist(lisrResult, use.names = TRUE)
+      ##  MONTHLY INCOME, OR FORTNIGHTLY + WEEKLY INCOME
+      if (row$FreqInt == 1) currentDate <- currentDate + months(1) else currentDate <- currentDate + days(7 * row$FreqInt)
+      
       seqID <- seqID + 1 
     }
   }
   
+  print(dtExpectedIncomeSeries)
+  return(dtExpectedIncomeSeries)
 }
 
 

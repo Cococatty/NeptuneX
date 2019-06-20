@@ -124,14 +124,15 @@ shinyServer(function(input, output, session) {
   #   gvisTable(dtExpectedIncomeSeries)
   # })
   
-  output$incomeExpectedTable <- renderDataTable({
-    dtExpectedIncomeSeries <- buildExpectedIncome(input$inIncomeDates)
-  })
+  reactiveExpectedIncome <- reactive({buildExpectedIncome(input$inIncomeDates)})
+  output$incomeExpectedTable <- renderDataTable({ reactiveExpectedIncome() })
   
   
   
   #################                      DEVELOPMENT, TASKS SCHEDULE TABLE                      #################
   output$devSchedule <- renderDataTable(dtDevTasks)
+  
+  
   
 ######      SIGNATURE END  
 })

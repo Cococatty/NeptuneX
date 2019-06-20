@@ -106,14 +106,13 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                              # , choiceValues = qsIncomeValues
                              )
                 , dateRangeInput("inIncomeDates", "Check Date Range"
-                                 , start = dateRangeStart, end = dateRangeEnd
+                                 , start = (today()-months(3)), end = today()
                                  , min = dateRangeMin
-                                 , max = dateRangeMax
+                                 , max = today()
                 )
               )
               , mainPanel( "Income"
-                           # dataTableOutput("spendDCTotals")
-                           , htmlOutput("incomeExpectedTable")
+                           , dataTableOutput("incomeExpectedTable")
                            # , tags$head(tags$style(
                            #   type="text/css", ".myTableHeadrow {background-color:black;}
                            #                .myTablerow {background-color:black;}")
