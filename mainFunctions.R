@@ -84,7 +84,11 @@ basicConsolidating <- function() {
     
     ##  Reorder Columns
     setcolorder(dtResult, names(dtFormattedRawData))
-    dtResult[, Amount := as.numeric(Amount)]
+    
+    ## Randomize Amounts as part of the data confidentialization                           
+    dtResult[, ":=" (OriginalAmount = as.numeric(Amount) 
+                 , Amount = round(as.numeric(Amount) * runif(1, min = 0, max = 2), 2)
+                 )]
     
     ##  Merge into Final Result
     dtFormattedRawData <<- rbind(dtFormattedRawData, dtResult)
