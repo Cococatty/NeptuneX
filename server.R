@@ -124,6 +124,9 @@ shinyServer(function(input, output, session) {
   #   gvisTable(dtExpectedIncomeSeries)
   # })
   
+  output$incomeExpTblTitle <- renderUI(print("Expected Income Entries in Selected Date Range"))
+  output$incomeResultTblTitle <- renderUI(print("Expected VS Actual Income Entries in Selected Date Range"))
+  
   reactiveExpectedIncome <- reactive({buildExpectedIncome(input$inIncomeDates)})
   output$incomeExpectedTable <- renderDataTable({ reactiveExpectedIncome() })
   

@@ -6,8 +6,8 @@
 
 library(sqldf)
 
-dbMain <- dbConnect(SQLite(), dbname="dbMain.sqlite")
-sqldf("attach 'dbMain.sqlite' as new")
+dbMain <- dbConnect(SQLite(), dbname="NeptuneX.sqlite")
+sqldf("attach 'NeptuneX.sqlite' as new")
 
 
 dbSendQuery(conn = dbMain,

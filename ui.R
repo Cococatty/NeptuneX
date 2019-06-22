@@ -4,7 +4,7 @@ source("mainFunctions.R")
 
 
 shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
-             theme = shinythemes::shinytheme("superhero"),
+             theme = shinythemes::shinytheme("united"), # superhero
   
   ######## SPENDING TAB
   tabPanel( "Spending Info" # menuSpending, # "Plot tab contents..."
@@ -112,7 +112,10 @@ shinyUI(fluidPage(navbarPage("Neptune X Data Planet", # HEADER
                 )
               )
               , mainPanel( "Income"
+                           , uiOutput("incomeExpTblTitle")
                            , dataTableOutput("incomeExpectedTable")
+                           , uiOutput("incomeResultTblTitle")
+                           
                            # , tags$head(tags$style(
                            #   type="text/css", ".myTableHeadrow {background-color:black;}
                            #                .myTablerow {background-color:black;}")

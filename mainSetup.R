@@ -14,6 +14,7 @@ source("mainFunctions.R")
 dtFormattedRawData <<- data.table(
                       Reference = character()
                       , OtherParty = character()
+                      # , OriginalAmount = numeric()
                       , Amount = numeric()
                       , BankAcct = character()
                       , Note = character()
@@ -72,11 +73,12 @@ acctKeywordsList <<- list(
 
 
 dtExpectedIncome <<- data.table( Name = c("Salary", "Rental")
-                                , Amount = c(3000, 120)
-                                , Frequency = c("Fortnightly", "Weekly")
-                                , FreqInt = c(2, 4)
-                                , StartDate = c(ymd("2019-06-11"), ymd("2019-06-11"))
-                                , EndDate = c(today(), today())
+                                 , KeyWords = c("Salary", "McCulloch") 
+                                 , Amount = c(3000, 120)
+                                  , Frequency = c("Fortnightly", "Weekly")
+                                  , FreqInt = c(2, 4)
+                                  , StartDate = c(ymd("2019-06-11"), ymd("2019-06-11"))
+                                 , EndDate = c(today(), today())
                                 )
 
 ## list attributes, date = EPIC, Task, Description, Finished By
@@ -91,9 +93,18 @@ dtDevTasks <<- data.table(EPIC = c("Documentation by Shiny", "Time Series")
                           , StartDate = c("20190620", "20190624")
                           , EndDate = c("20190623", "20190626") )
 
+
+dtRandomizationSource <<- data.table(Keyword = character(), Category = character()
+                               , RanRate = numeric())
+
+# dtRandomieLog <<- data.table(id )
+
 basicConsolidating()
 categorizeGrouping()
 
+buildExpectedIncome(c(ymd("20190521"), ymd("20190711")))
+head(dtReportData)
+head(dtFormattedRawData)
 
 ##################                  DATA SETUP                  ##################
 

@@ -21,6 +21,22 @@ loadData <- function(AcctNum) {
 }
 
 
+
+##########            RANDOMIZING VALUES            ##########
+##  PURPOSE:
+##  1. Format a date column so that it can be derived into required columns.
+##  2. Remove columns that are not required
+##
+
+randomizeValue <- function(dtSource) {
+  # dtRandomization
+  # if (dtSource$BalType == "Credit" & dtSource$Note == "Salary")
+  dtSource[, ":=" (Amount = as.numeric(Amount) 
+                   # , Amount = round(as.numeric(Amount) * runif(1, min = 0.5, max = 2), 2)
+  )]
+  
+}
+
 ##########            FORMAT RAW DATA BY REQUIREMENTS            ##########
 ##  PURPOSE:
 ##  1. Format a date column so that it can be derived into required columns.
@@ -82,13 +98,15 @@ basicConsolidating <- function() {
       }
     }
     
+     ## Randomize Amounts as part of the data confidentialization                           
+    # dtResult <- randomizeValue(dtResult)
+    dtResult[, ":=" (Amount = as.numeric(Amount) 
+                     # , Amount = round(as.numeric(Amount) * runif(1, min = 0.5, max = 2), 2)
+    )]
+    
+    
     ##  Reorder Columns
     setcolorder(dtResult, names(dtFormattedRawData))
-    
-    ## Randomize Amounts as part of the data confidentialization                           
-    dtResult[, ":=" (OriginalAmount = as.numeric(Amount) 
-                 , Amount = round(as.numeric(Amount) * runif(1, min = 0, max = 2), 2)
-                 )]
     
     ##  Merge into Final Result
     dtFormattedRawData <<- rbind(dtFormattedRawData, dtResult)
@@ -125,9 +143,10 @@ buildExpectedIncome <- function(selectedDateRange) {
     seqID <- 1
     
     while (currentDate <= setEndDate) {
-      print("I'm here!")
       dtTemp <- data.table(SeqID = seqID, AcctName = row$Name, Frequency = row$Frequency
-                           , ExpDate = currentDate, Amount = row$Amount)
+                           , ExpDate = currentDate, Amount = row$Amount
+                           )
+      
       lisrResult = list(dtExpectedIncomeSeries, dtTemp)
       dtExpectedIncomeSeries <- rbindlist(lisrResult, use.names = TRUE)
       ##  MONTHLY INCOME, OR FORTNIGHTLY + WEEKLY INCOME
@@ -136,11 +155,19 @@ buildExpectedIncome <- function(selectedDateRange) {
       seqID <- seqID + 1 
     }
   }
+  # dtExpectedIncomeSeries <<- randomizeValue(dtExpectedIncomeSeries)
   
-  print(dtExpectedIncomeSeries)
   return(dtExpectedIncomeSeries)
 }
 
+
+##########            BUILD EXPECTED SERIES OF INCOME DATA            ##########
+##  PURPOSE:
+##  1. 
+##
+compareIncomeToActual <- function(selectDateRange) {
+  
+}
 
 ##########            ACCOUNTS DATES TABLE            ##########
 ##  PURPOSE:
@@ -273,11 +300,6 @@ calcDebCredTotals <- function(selectedAccts, selectedDateRange) {
 
 
 ########################          TO COMPLETE          ########################
-########################          
-########################          
-########################          
-########################          
-########################          
 ########################          
 ##########            APPLY TIME SERIES TO DATA            ##########
 ##  PURPOSE:
@@ -426,3 +448,6 @@ testComponent <- function() {
 # yearMonthValues <- deriveSelectedDateRange(plotDateRange)
 # & TransYear >= yearMonthValues$drStartYear & TransYear <= yearMonthValues$drEndYear
 # & TransMonth >= yearMonthValues$drStartMonth & TransMonth <= yearMonthValues$drEndMonth
+
+
+# print("I'm here!")
