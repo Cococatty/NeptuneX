@@ -9,29 +9,18 @@ library(googleVis)
 
 # source("Setup Data.R")
 source("mainFunctions.R")
+connection <- dbConnect(RSQLite::SQLite(), "NeptuneX")
+dbListTables(connection)
+dbReadTable(connection, "")
+# dbRemoveTable(connection, "ApplicationMenus")
 
 ##################                  STRUCTURAL SETUP                  ##################
-dtFormattedRawData <<- data.table(
-                      Reference = character()
-                      , OtherParty = character()
-                      # , OriginalAmount = numeric()
-                      , Amount = numeric()
-                      , BankAcct = character()
-                      , Note = character()
-                      # , ID = integer()
-                      , TransDate = ymd()
-                      , TransWDay = character()
-                      , TransDay = character()
-                      , TransMonth = character()
-                      , TransYear = character()
-)
+dtFormattedRawData <<- dbReadTable(connection, "FormattedSourceData")
+
+dtAcctDates <<- dbReadTable(connection, "AccountsDates")
 
 
-dtAcctDates <<- data.table(
-  BankAcct = character()
-  , MinDate = ymd()
-  , MaxDate = ymd()
-)
+# dbListTables(connection)
 
 qsIncomeValues <<- list("receivedAll", "missPayments")
 qsIncomeNames <<- list("Have I received all expected money?", "What payments are missing?")

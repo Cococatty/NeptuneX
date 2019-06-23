@@ -1,11 +1,11 @@
 
-#################################               AccountKeywords               #################################
-parentIDTable <- "AccountCategoiries"
-targetTable <- "AccountsKeywords"
-parentKeyName <- "CategoryName"
+#################################               GLAccountKeywords               #################################
+parentIDTable <- "GLAccounts"
+targetTable <- "GLAccountKeywords"
+parentKeyName <- "Code"
 sourceList <- acctKeywordsList
 
-delistForSQL_AccountsKeywords <- function(sourceList, parentIDTable, parentKeyName, targetTable) {
+delistForSQL_GLAccountsKeywords <- function(sourceList, parentIDTable, parentKeyName, targetTable) {
   
   currentID <- 1
   
@@ -18,7 +18,7 @@ delistForSQL_AccountsKeywords <- function(sourceList, parentIDTable, parentKeyNa
     # InsertResultQuery <- paste("INSERT INTO AccountsKeywords (ID, CategoryID, Keyword) VALUES (?, ?, ?)")
     dbExecute(
       connection,
-      "INSERT INTO AccountsKeywords VALUES (?, ?, ?)",
+      "INSERT INTO GLAccountKeywords VALUES (?, ?, ?)",
       param = list(
         c(seq(from = currentID, to = currentID + keyLen - 1))
         , c(rep(keywordID, keyLen))
@@ -29,23 +29,14 @@ delistForSQL_AccountsKeywords <- function(sourceList, parentIDTable, parentKeyNa
   }
   CheckResultQuery <- paste('SELECT * FROM ', targetTable, sep = '')
   getRS <- dbGetQuery(connection, CheckResultQuery)
-  dbClearResult(getRS)
+  # dbClearResult(getRS)
 }
 
 
 ######################         TESTFIELD         ######################
 # dbSendQuery(connection, "DELETE FROM AccountsKeywords")
-delistForSQL_AccountsKeywords(sourceList, parentIDTable, parentKeyName, targetTable)
+delistForSQL_GLAccountsKeywords(sourceList, parentIDTable, parentKeyName, targetTable)
 
-
-
-
+# dbReadTable(connection, "GLAccounts")
+dbReadTable(connection, "GLAccountKeywords")
 #################################               AccountKeywords               #################################
-
-
-
-
-# keywordID <- as.integer( dbGetQuery(connection, 'SELECT ID FROM AccountCategoiries WHERE "CategoryName" = :x',
-#            params = list(x = i)))
-
-# dbClearResult(getRS)
