@@ -1,9 +1,0 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-downloaded_packages/*
-/example/*
-packrat/bundles/Neptune-2019-04-14.tar.gz
-packrat/lib*/
-packrat/src/
