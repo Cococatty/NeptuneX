@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.globalModuleInstallation": true,
+		"python.pythonPath": "C:\\Programs\\Python\\python.exe"
+	}
+}
