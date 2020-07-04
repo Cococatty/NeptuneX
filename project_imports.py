@@ -1,11 +1,13 @@
-import os, glob, re, sys, importlib, init_metadata, numpy, pandas, nltk, spacy
+# global pd
+import os, glob, re, sys, importlib, init_metadata, numpy, nltk, spacy
+import pandas as pd
 
 __all__ = ['os', 'glob', 're', 'sys', 'importlib', 'init_metadata', 
-'numpy', 'pandas',
+'numpy', 'pd',
 'nltk', 'spacy'
  ]
 
-pandas.set_option('display.max_colwidth', None)
+pd.set_option('display.max_colwidth', None)
 
 
 nltk.download('punkt', os.path.join(init_metadata.file_path_downloads, 'nlp'))
