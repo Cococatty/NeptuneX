@@ -1,16 +1,17 @@
 import csv
 import glob
 import os
+import init_metadata
 
 # os.getcwd()
 
-output_file_path = 'C:\\Projects\\NeptuneX\\output\\'
+# file_path_output = 'C:\\Projects\\NeptuneX\\output\\'
 # global 
 
 
 def write_dict_csv(data_dict, data_header, file_name):
     try:
-        output_file = os.path.join(output_file_path, file_name+'.csv')
+        output_file = os.path.join(init_metadata.file_path_data, file_name+'.csv')
        
         with open(output_file, 'w') as csv_file:
            

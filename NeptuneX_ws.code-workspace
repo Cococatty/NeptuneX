@@ -6,11 +6,15 @@
 	],
 	"settings": {
 		"python.globalModuleInstallation": true,
-		"python.pythonPath": "C:\\Programs\\Python\\python.exe",
+		"python.pythonPath": ".venv_neptunex\\Scripts\\python.exe",
 		"search.useIgnoreFiles": false,
 		"git.ignoredRepositories": [
 			"./output/*"
-		]
+		],
+		"python.dataScience.jupyterServerURI": "local",
+		"python.envFile": "/.venv",
+		"python.venvPath": "${workspaceFolder}/.venv_neptunex",
+		"python.terminal.activateEnvInCurrentTerminal": true
 	},
 	"githubIssues.ignoreMilestones": []
 }
