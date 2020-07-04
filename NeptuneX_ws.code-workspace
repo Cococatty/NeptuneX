@@ -6,6 +6,11 @@
 	],
 	"settings": {
 		"python.globalModuleInstallation": true,
-		"python.pythonPath": "C:\\Programs\\Python\\python.exe"
-	}
+		"python.pythonPath": "C:\\Programs\\Python\\python.exe",
+		"search.useIgnoreFiles": false,
+		"git.ignoredRepositories": [
+			"./output/*"
+		]
+	},
+	"githubIssues.ignoreMilestones": []
 }
