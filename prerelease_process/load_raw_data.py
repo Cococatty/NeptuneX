@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath('C:\\Projects\\NeptuneX\\'))
 from project_imports import *
 
 from importlib import *
-# project_imports = importlib.reload(project_imports)
+project_imports = importlib.reload(project_imports)
 init_metadata = importlib.reload(init_metadata)
 
 
