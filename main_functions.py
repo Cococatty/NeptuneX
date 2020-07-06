@@ -2,7 +2,7 @@ from project_imports import *
 
 
 
-#####################---------DATA PREPROCESSING---------##################### 
+#####################---------DATA PREPROCESSING---------#####################
 
 def write_dict_csv(data_dict, data_header, file_name):    
     try:
@@ -44,10 +44,28 @@ def randomize_values(df_target):
     except:
         print('I AM HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
-#####################---------EXTRACT INFO---------##################### 
 
 
-#####################---------ARCHIVED AREA---------##################### 
+#####################---------TEMPORARY SOLUTIONS---------#####################
+def randomize_all(items_to_randomize, str_header, export_result=True, file_name='unknown'):
+    try:
+        dict_item_random = {}        
+        for i in items_to_randomize:
+            rand_perc = np.random.uniform(0.5, 2)
+            dict_item_random[i] = rand_perc
+
+        if (export_result):
+            write_dict_csv(data_dict=dict_item_random, data_header=str_header, file_name=file_name)
+        print('Finished generating RANDOMIZERS')
+    except:
+        print('generate_randomizers failed')
+
+
+
+#####################---------EXTRACT INFO---------#####################
+
+
+#####################---------ARCHIVED AREA---------#####################
 # writer = csv.DictWriter(csv_file, fieldnames=head_row)
                     # writer.writeheader()
                     

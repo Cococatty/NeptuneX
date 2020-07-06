@@ -3,10 +3,11 @@ import os, glob, re, sys, importlib, csv, init_metadata, main_functions, nltk, s
 import pandas as pd
 import numpy as np
 from datetime import *
+from datetime import timedelta
 # datetime, 
 
 __all__ = ['os', 'glob', 're', 'sys', 'importlib', 'csv', 'datetime', 
-'init_metadata', 'main_functions',
+'init_metadata', 'main_functions', 'timedelta',
 'np', 'pd', 'nltk', 'spacy'
 ]
 
@@ -28,4 +29,4 @@ nlp = spacy.load('en_core_web_sm')
 
 sys.path.append(os.path.abspath('C:\\Projects\\NeptuneX\\'))
 
-#####################---------CUSTOM FILES---------##################### 
+#####################---------CUSTOM FILES---------#####################

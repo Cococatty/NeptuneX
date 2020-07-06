@@ -8,10 +8,10 @@ file_key_daily = '000'
 # 6608-03Jul13.csv
 
 list_item_toRandom = ['Salary', 'Loan', 'Rent', 'PhoneBill', 'InternetBill', 'general',
- 'foreign_fee', 'foreign_amt']
+ 'foreign_fee', 'foreign_amount']
 list_sensitive_words = ['Carina', 'Zheng']
 
 
 
-#####################---------BOOLEAN CONTROLS---------##################### 
+#####################---------BOOLEAN CONTROLS---------#####################
 # generate_randomizer = False
