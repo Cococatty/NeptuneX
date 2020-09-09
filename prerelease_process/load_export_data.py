@@ -152,7 +152,29 @@ print('Finished RANDOMIZING VALUES')
 ## Geospatial (Address, Location) 
 
 
+#####################---------REMOVE FIELDS---------#####################
+df_cc = df_cc.drop(columns=['foreign_details'])
 
+
+#####################---------ENCRYPTION---------#####################
+# from itsdangerous import URLSafeSerializer, Serializer
+# auth_s = URLSafeSerializer("secret key", "auth")
+# safe_cc = auth_s.dumps(df_cc)
+# print(safe_cc)
+# eyJpZCI6NSwibmFtZSI6Iml0c2Rhbmdlcm91cyJ9.6YP6T0BaO67XP--9UzTrmurXSmg
+
+data = auth_s.loads(token)
+print(data["name"])
+# print(data)
+# itsdangerous
+
+
+from itsdangerous.serializer import Serializer
+auth_s = Serializer('secret-key', 'auth')
+s.dumps(df_cc.to_json())
+safe_cc = auth_s.dumps(df_cc)
+
+b'[1, 2, 3, 4].r7R9RhGgDPvvWl3iNzLuIIfELmo'
 
 #####################---------EXPORT---------#####################
 file_daily = os.path.join(init_metadata.file_path_output, 'df_daily.csv')

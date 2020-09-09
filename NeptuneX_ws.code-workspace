@@ -12,7 +12,7 @@
 			"./output/*"
 		],
 		"python.dataScience.jupyterServerURI": "local",
-		"python.envFile": "/.venv",
+		"python.envFile": "/.venv_neptunex",
 		"python.venvPath": "${workspaceFolder}/.venv_neptunex",
 		"python.terminal.activateEnvInCurrentTerminal": true,
 		"search.exclude": {
