@@ -17,7 +17,11 @@
 		"python.terminal.activateEnvInCurrentTerminal": true,
 		"search.exclude": {
 			"**/.venv_neptunex/*": true
-		}
+		},
+		"githubPullRequests.remotes": [
+			"origin",
+			"upstream",
+		]
 	},
 	"githubIssues.ignoreMilestones": []
 }
