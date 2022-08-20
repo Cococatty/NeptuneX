@@ -1,131 +1,45 @@
-source("mainSetup.R")
-source("mainFunctions.R")
+source("setup.R")
+source("key_functions.R")
 
 
 shinyServer(function(input, output, session) {
-  menuSpending <<- "Spending"
+  title_yearly_spend <<- "Annual Spending"
   
-  output$testText <- renderText(input$tabSpend)
-  # input$tabSpend
-  
-  
-  # observe({
-  #   print(paste0("test input is ", input$spendDates))
-  # })
+  output$testText <- renderText(input$tab_spend)
   
  
   #################                      SPENDING, MNTH                      #################
-  output$spendPlotsMnth <- renderUI({
+  output$plot_monthly_debit <- renderUI({
     plotsOutputList <- lapply(as.list(seq_len(length(input$spendAccts))), function(i) {
-      plotID <- paste0("plotSimple", i)
+      plotID <- paste0("plot_simple", i)
       htmlOutput(plotID)
     })
     tagList(plotsOutputList)
   })
   
   
-  observeEvent(
-    {input$spendAccts
-    input$spendDates
-    input$tabSpend
-    }
+  output$loaded_csv <- renderTable({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    inFile <- input$csv_input
     
-    , { if (input$tabSpend == titleSpendMonth) {
-    for (i in seq_len(length(input$spendAccts))) {
-      local({
-        plotName <- paste0("plotSimple", i)
-        currentAcct <- input$spendAccts[i]
-        plotData <- plotSimple(currentAcct, input$spendDates, input$tabSpend)
-        plotTitle <- paste0("The spending trend of ", currentAcct)
-        
-        output[[plotName]] <- renderGvis({
-          gvisLineChart(plotData
-                        , options = list(
-                          title = plotTitle
-                          , titleTextStyle="{color:'purple',fontName:'Courier',fontSize:16}"
-                          , vAxes = "[{title:'Amount (in $)'}]"
-                        ))
-          })
-        })}
-  }})
-  
-  ########      TO MERGE WITH MONTHLY ONE
-  ########      
-  ########      
-  #################                      SPENDING, ANNUAL                      #################
-  output$spendPlotsAnnual <- renderUI({
-    plotsSimpleYrOutputList <- lapply(as.list(seq_len(length(input$spendAccts))), function(i) {
-      plotYrID <- paste0("plotSimpleAnnual", i)
-      htmlOutput(plotYrID)
-    })
-    tagList(plotsSimpleYrOutputList)
+    if (is.null(inFile))
+      return(NULL)
+    
+    read.csv(inFile$datapath, header = TRUE)
   })
   
-  
-  observeEvent(
-    {input$spendAccts
-      input$spendDates
-      input$tabSpend
-      }
-    
-    , { if (input$tabSpend == titleSpendYear) {
-      for (i in seq_len(length(input$spendAccts))) {
-        local({
-          plotName <- paste0("plotSimpleAnnual", i)
-          currentAcct <- input$spendAccts[i]
-          plotYrData <- plotSimple(currentAcct, input$spendDates, input$tabSpend)
-          plotTitle <- paste0("The spending trend of ", currentAcct)
-
-          output[[plotName]] <- renderGvis({
-            gvisColumnChart(plotYrData
-                          , options = list(
-                            title = plotTitle
-                            , titleTextStyle="{color:'purple',fontName:'Courier',fontSize:16}"
-                            , vAxes = "[{title:'Amount (in $)'}]"
-                          ))
-          })
-        })}
-    }})
-  
-  
-  
-  #################                      SPENDING, D&C TABLE                      #################
-  # output$spendTblDC <- renderDataTable(calcDebCredTotals())
-  observeEvent(
-    {input$spendAccts
-      input$spendDates
-      input$tabSpend
-    }
-    
-    , { if (input$tabSpend == titleSpendTable) {
-     # output$spendTblDC <- renderGvis( { 
-     #          dtResult <- getDebVSCredTbl(input$spendAccts, input$spendDates)
-     #          gvisTable(dtResult
-     #                     , formats = list(Amount = "$#.##")
-     #                     , options = list(page = "enable"# , height = 750, width = 850
-     #                     , cssClassNames = "{headerRow: 'myTableHeadrow', tableRow: 'myTablerow'}", alternatingRowStyle = FALSE)
-     #          )
-     # })
-      output$spendTblDC <- renderDataTable( { 
-        dtResult <- getDebVSCredTbl(input$spendAccts, input$spendDates)
-      })
-      }}
-    )
-
-  
   reactiveDCTotals <- reactive(calcDebCredTotals(input$spendAccts, input$spendDates))
-  output$spendDCTotals <- renderDataTable({reactiveDCTotals()})
+  output$tbl_total_debit <- renderDataTable({reactiveDCTotals()})
 
 
   #################                      INCOME, Expect Income TABLE                      #################
-  # output$incomeExpectedTable <- renderGvis({
-  #   buildExpectedIncome(input$inIncomeDates)
-  #   gvisTable(dtExpectedIncomeSeries)
-  # })
-  
-  reactiveExpectedIncome <- reactive({buildExpectedIncome(input$inIncomeDates)})
-  output$incomeExpectedTable <- renderDataTable({ reactiveExpectedIncome() })
-  
+
+  plan_income_start <- reactive({plan_income(input$income_start_date)})
+  output$incomeExpectedTable <- renderDataTable({ plan_income_start() })
   
   
   #################                      DEVELOPMENT, TASKS SCHEDULE TABLE                      #################
@@ -135,5 +49,4 @@ shinyServer(function(input, output, session) {
   
 ######      SIGNATURE END  
 })
-
 # print("I'm HERE! ")

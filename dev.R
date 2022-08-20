@@ -1,5 +1,5 @@
 #################            TEST DATA SETUP START              #################
-# plotSimple <- function(plotAcct, plotYear) {
+# plot_simple <- function(plotAcct, plotYear) {
   plotAcct <- c("Credit Card", "Daily")
   plotYear <- "2019"
   tsGroup <- "BankAcct"
@@ -18,7 +18,7 @@
     
   # print(paste0("in function periodType is ", periodType, collapse = "--"))
   
-  dtPlotData <- dtFormattedRawData[(BankAcct == plotAcct 
+  dtPlotData <- dt_formatted_data[(BankAcct == plotAcct 
                                     & TransDate %between% plotDateRange)
                                    , .(TransYear, TransMonth, Debit, BankAcct)]
   
@@ -74,4 +74,4 @@ rbindlist(l, use.names=TRUE)
 testVar <<- plotAcct
 testVarType <<- str(plotAcct)
 
-# print(paste0("in plotSimple the dateRange is ", testVar, " type is ", str(testVar), collapse = "------"))
+# print(paste0("in plot_simple the dateRange is ", testVar, " type is ", str(testVar), collapse = "------"))
