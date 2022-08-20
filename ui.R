@@ -2,7 +2,6 @@ source("setup.R")
 source("key_functions.R")
 
 
-
 shinyUI(fluidPage(
   navbarPage(
     "Neptune X Data Planet", # HEADER
